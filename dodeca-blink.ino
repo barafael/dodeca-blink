@@ -2,12 +2,16 @@
 
 #include "leds.hpp"
 
+#include <queue>
+
 #include "constants.hpp"
 
 #include "dodecahedron.hpp"
 #include "dodeca_random_blink.hpp"
+#include "dodeca_test_pattern.hpp"
 
 DodecaRandomBlink random_blink(led_array);
+//DodecaTestPattern test_pattern(edges);
 
 void setup() {
   Serial.begin(115200);
@@ -33,7 +37,6 @@ void loop() {
     random_blink.advance();
   }
 #elif defined(DODECAHEDRON_TEST_PATTERN)
-  static dodecahedron_index = 0;
   EVERY_N_MILLISECONDS(500) {
   }
 #endif

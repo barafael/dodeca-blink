@@ -1,3 +1,6 @@
+#ifndef RANDOM_BLINK_STATE_HPP
+#define RANDOM_BLINK_STATE_HPP
+
 #include <cstddef>
 #include <cstdint>
 
@@ -15,3 +18,5 @@ class RandomBlinkState {
 
     void advance(CRGB leds[], size_t max_index);
 };
+
+#endif // RANDOM_BLINK_STATE_HPP

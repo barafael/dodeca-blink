@@ -1,3 +1,6 @@
+#ifndef CONSTANTS_HPP
+#define CONSTANTS_HPP
+
 #define DATA_PIN_1 2
 #define DATA_PIN_2 4
 #define DATA_PIN_3 15
@@ -7,3 +10,5 @@
 
 #define NUM_LEDS 144
 #define STRIP_COUNT 6
+
+#endif // CONSTANTS_HPP
