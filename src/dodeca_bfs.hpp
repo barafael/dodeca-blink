@@ -8,8 +8,7 @@ constexpr size_t PATH_LENGTH = 16;
 
 class NodeDistancePair {
   public:
-    NodeDistancePair(size_t node_index, size_t distance): node_index(node_index), distance(distance) {
-    }
+    NodeDistancePair(size_t node_index, size_t distance): node_index(node_index), distance(distance) { }
 
   private:
     size_t node_index;

@@ -6,6 +6,19 @@ constexpr size_t TO      = 0;
 constexpr size_t FROM    = 1;
 constexpr size_t SPECIAL = 2;
 
+DodecaNodeCursor Dodecahedron::get_cursor() {
+    return get_cursor(0);
+}
+
+DodecaNodeCursor Dodecahedron::get_cursor(size_t index) {
+    DodecaNodeCursor cursor = DodecaNodeCursor {
+        nodes,
+        edges,
+        index,
+    };
+    return cursor;
+}
+
 Dodecahedron::Dodecahedron() {
     nodes[0].edge_index[0] = 5;
     nodes[0].edge_index[1] = 0;
