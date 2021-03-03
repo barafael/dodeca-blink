@@ -6,8 +6,6 @@ namespace Test_NativeDodecahedron {
 
 void test_navigate_graph() {
     Dodecahedron dod;
-    DodecaNodeCursor c = dod.get_cursor();
-
 }
 
 void test_all() {
