@@ -115,7 +115,7 @@ Dodecahedron::Dodecahedron() {
   edges[8].node_index[1] = 8;
 
   edges[9].node_index[0] = 4;
-  edges[9].node_index[0] = 9;
+  edges[9].node_index[1] = 9;
 
   edges[10].node_index[0] = 5;
   edges[10].node_index[1] = 10;
