@@ -6,9 +6,6 @@
 template<typename T, size_t SIZE>
 class Queue {
   public:
-    Queue() {
-    }
-
     void push(T elem) {
       size_t index = (oldest + num_elems) % SIZE;
       data[index] = elem;

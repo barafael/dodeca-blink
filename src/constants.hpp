@@ -1,14 +1,16 @@
 #ifndef CONSTANTS_HPP
 #define CONSTANTS_HPP
 
-#define DATA_PIN_1 2
-#define DATA_PIN_2 4
-#define DATA_PIN_3 15
-#define DATA_PIN_4 13
-#define DATA_PIN_5 14
-#define DATA_PIN_6 27
+#include <cstddef>
 
-#define NUM_LEDS 144
-#define STRIP_COUNT 6
+constexpr size_t DATA_PIN_1 = 2;
+constexpr size_t DATA_PIN_2 = 4;
+constexpr size_t DATA_PIN_3 = 15;
+constexpr size_t DATA_PIN_4 = 13;
+constexpr size_t DATA_PIN_5 = 14;
+constexpr size_t DATA_PIN_6 = 27;
+
+constexpr size_t NUM_LEDS = 144;
+constexpr size_t STRIP_COUNT = 6;
 
 #endif // CONSTANTS_HPP

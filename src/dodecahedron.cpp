@@ -2,9 +2,9 @@
 
 #include "dodecahedron.hpp"
 
-#define TO 0
-#define FROM 1
-#define SPECIAL 2
+constexpr size_t TO = 0;
+constexpr size_t FROM = 1;
+constexpr size_t SPECIAL = 2;
 
 Dodecahedron::Dodecahedron() {
   nodes[0].edge_index[0] = 5;

@@ -3,8 +3,8 @@
 
 #include <cstddef>
 
-#define NUM_NODES 20
-#define NUM_EDGES 30
+constexpr size_t NUM_NODES = 20;
+constexpr size_t NUM_EDGES = 30;
 
 class Node {
   public:

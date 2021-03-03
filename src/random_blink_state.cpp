@@ -5,11 +5,11 @@ void RandomBlinkState::randomize(size_t max_index) {
   brightness = random8(128);
   step_size = random8(2, 12);
   rising = true;
-  color = CHSV(random8(), random8(128, 255), random8());
+  color = CHSV(random8(), random8(128, UINT8_MAX), random8());
 }
 
 void RandomBlinkState::advance(CRGB leds[], size_t max_index) {
-  if ((uint32_t)brightness + step_size > 255) {
+  if ((uint32_t)brightness + step_size > UINT8_MAX) {
     rising = false;
   }
 
