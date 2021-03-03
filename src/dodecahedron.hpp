@@ -26,4 +26,4 @@ class Dodecahedron {
     Edge edges[NUM_EDGES];
 };
 
-#endif // DODECAHEDRON_HPP
+#endif// DODECAHEDRON_HPP
