@@ -10,6 +10,16 @@ class Node {
 
 class Edge {
   public:
+    size_t traverse_from(size_t node) {
+      if (node_index[0] == node) {
+        return node_index[1];
+      }
+      if (node_index[1] == node) {
+        return node_index[0];
+      }
+      return -1;
+    }
+
     size_t node_index[2];
 };
 

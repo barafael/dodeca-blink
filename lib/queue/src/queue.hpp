@@ -2,6 +2,7 @@
 #define QUEUE_HPP
 
 #include <cstddef>
+#include <array>
 
 template<typename T, size_t SIZE>
 class Queue {
@@ -45,7 +46,7 @@ class Queue {
   private:
     size_t oldest = 0;
     size_t num_elems   = 0;
-    T data[SIZE]  = {};
+    std::array<T, SIZE> data = {};
 };
 
 #endif // QUEUE_HPP

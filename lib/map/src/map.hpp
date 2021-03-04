@@ -11,7 +11,7 @@ class Map {
     }
 
     V *get(K key) {
-        for (size_t i = 0; i < SIZE; i++) {
+        for (size_t i = 0; i < len; i++) {
             if (keys[i] == key) {
                 return &values[i];
             }
@@ -24,8 +24,7 @@ class Map {
         return false;
       }
 
-      bool present = false;
-      for (size_t i = 0; i < SIZE; i++) {
+      for (size_t i = 0; i < len; i++) {
         if (keys[i] == key) {
           values[i] = value;
           return true;
@@ -35,6 +34,15 @@ class Map {
       values[len] = value;
       len++;
       return true;
+    }
+
+    bool has_key(K key) {
+      for (size_t i = 0; i < len; i++) {
+        if (key == keys[i]) {
+          return true;
+        }
+      }
+      return false;
     }
 
     size_t get_len() {

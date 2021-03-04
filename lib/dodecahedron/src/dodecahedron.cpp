@@ -6,6 +6,14 @@ constexpr size_t TO      = 0;
 constexpr size_t FROM    = 1;
 constexpr size_t SPECIAL = 2;
 
+Neighbours Dodecahedron::get_neighbouring_nodes_of(size_t node_index) {
+    Neighbours n;
+    n[0] = edges[nodes[node_index].edge_index[0]].traverse_from(node_index);
+    n[1] = edges[nodes[node_index].edge_index[1]].traverse_from(node_index);
+    n[2] = edges[nodes[node_index].edge_index[2]].traverse_from(node_index);
+    return n;
+}
+
 Dodecahedron::Dodecahedron() {
     nodes[0].edge_index[0] = 5;
     nodes[0].edge_index[1] = 0;
