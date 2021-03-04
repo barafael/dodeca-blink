@@ -4,5 +4,10 @@
             "name": "dodeca-blink",
             "path": "."
         }
-    ]
+    ],
+    "settings": {
+        "files.associations": {
+            "*.tcc": "cpp"
+        }
+    }
 }
