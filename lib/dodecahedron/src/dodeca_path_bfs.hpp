@@ -6,40 +6,13 @@
 
 #include "dodeca_path_calc.hpp"
 #include "dodecahedron.hpp"
-
-template<typename K, typename V, size_t SIZE>
-class Map {
-  public:
-    void reset() {
-      len = 0;
-    }
-
-    bool set(K key, V value) {
-      if (len >= SIZE) {
-        return false;
-      }
-
-      bool present = false;
-      for (size_t i = 0; i < SIZE; i++) {
-        if (keys[i] == key) {
-          values[i] = value;
-          return true;
-        }
-      }
-      keys[len] = key;
-      values[len] = value;
-      len++;
-    }
-
-  private:
-    size_t len = 0;
-    K keys[SIZE];
-    V values[SIZE];
-};
+#include "map.hpp"
+#include "queue.hpp"
 
 class DodecaPathBFS: public PathCalculator {
     Path get_path(size_t from_node_index, size_t to_node_index) override {
-
+      Map<size_t, size_t, 32> previous;
+      Queue<size_t, 16> queue;
     }
 };
 
