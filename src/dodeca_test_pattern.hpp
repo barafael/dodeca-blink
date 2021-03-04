@@ -2,9 +2,12 @@
 #define DODECA_TEST_PATTERN_HPP
 
 #include "FastLED.h"
+
 #include "constants.hpp"
 #include "dodecahedron.hpp"
 #include "leds.hpp"
+
+#include <array>
 
 #include <cstddef>
 
@@ -24,8 +27,7 @@ class DodecaTestPattern {
 
   private:
     Dodecahedron dod;
-
-    CRGB *edges[EDGE_COUNT] = {};
+    std::array<CRGB*, EDGE_COUNT> edges = {};
 };
 
 #endif// DODECA_TEST_PATTERN_HPP

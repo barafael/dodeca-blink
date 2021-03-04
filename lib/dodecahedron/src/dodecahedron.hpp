@@ -1,10 +1,10 @@
 #ifndef DODECAHEDRON_HPP
 #define DODECAHEDRON_HPP
 
-#include <cstddef>
-#include <array>
-
 #include "dodeca_graph.hpp"
+
+#include <array>
+#include <cstddef>
 
 constexpr size_t NUM_NODES = 20;
 constexpr size_t NUM_EDGES = 30;

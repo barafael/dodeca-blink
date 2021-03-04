@@ -4,7 +4,6 @@
 #include <cstddef>
 
 #include "dodeca_graph.hpp"
-#include <iostream>
 
 constexpr size_t MAX_PATH_LEN = 5;
 
