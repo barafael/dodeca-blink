@@ -12,7 +12,7 @@ constexpr size_t NUM_RANDOM_BLINK_STATES = 8;
 
 class DodecaRandomBlink {
   public:
-    explicit DodecaRandomBlink(CRGB leds[][NUM_LEDS]) {
+    DodecaRandomBlink() {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < NUM_RANDOM_BLINK_STATES; j++) {
                 states[i][j].randomize(NUM_LEDS - 1);

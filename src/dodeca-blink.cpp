@@ -1,4 +1,5 @@
 #include "constants.hpp"
+#include "dodeca_fade_palette.hpp"
 #include "dodeca_random_blink.hpp"
 #include "dodeca_test_pattern.hpp"
 #include "dodecahedron.hpp"
@@ -7,7 +8,8 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-DodecaRandomBlink random_blink(led_array);
+DodecaRandomBlink random_blink;
+DodecaFadePalette fading;
 //DodecaTestPattern test_pattern(edges);
 
 void setup() {
@@ -28,13 +30,17 @@ void setup() {
 }
 
 void loop() {
-#define RANDOM_BLINK
+#define DODECA_FADE_PALETTE
 #ifdef RANDOM_BLINK
     EVERY_N_MILLISECONDS(20) {
         random_blink.advance();
     }
 #elif defined(DODECAHEDRON_TEST_PATTERN)
     EVERY_N_MILLISECONDS(500) {
+    }
+#elif defined(DODECA_FADE_PALETTE)
+    EVERY_N_MILLISECONDS(20) {
+        fading.advance();
     }
 #endif
     FastLED.show();
