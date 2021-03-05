@@ -15,7 +15,7 @@ class DodecaRandomBlink {
     DodecaRandomBlink() {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < NUM_RANDOM_BLINK_STATES; j++) {
-                states[i][j].randomize(NUM_LEDS - 1);
+                states[i][j].randomize(LEDS_PER_STRIP - 1);
             }
         }
     }
@@ -23,7 +23,7 @@ class DodecaRandomBlink {
     void advance() {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < NUM_RANDOM_BLINK_STATES; j++) {
-                states[i][j].advance(led_array[i], NUM_LEDS - 1);
+                states[i][j].advance(led_array[i], LEDS_PER_STRIP - 1);
             }
         }
     }

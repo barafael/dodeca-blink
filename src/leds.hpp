@@ -6,6 +6,6 @@
 
 #include <array>
 
-extern CRGB led_array[STRIP_COUNT][NUM_LEDS];
+extern CRGB led_array[STRIP_COUNT][LEDS_PER_STRIP];
 
 #endif// LEDS_HPP

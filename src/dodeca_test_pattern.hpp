@@ -10,9 +10,6 @@
 #include <array>
 #include <cstddef>
 
-constexpr size_t EDGE_COUNT    = 30;
-constexpr size_t LEDS_PER_EDGE = 10;
-
 class IndexPair {
   public:
     IndexPair() = default;
@@ -25,7 +22,7 @@ class IndexPair {
 
 class DodecaTestPattern {
   public:
-    DodecaTestPattern() {
+    explicit DodecaTestPattern(const size_t leds_per_edge): LEDS_PER_EDGE(leds_per_edge) {
         coordinates[0]  = {0, 0 * LEDS_PER_EDGE};
         coordinates[5]  = {0, 1 * LEDS_PER_EDGE};
         coordinates[19] = {0, 2 * LEDS_PER_EDGE};
@@ -73,7 +70,7 @@ class DodecaTestPattern {
         }
         previous = current;
 
-        current_edge_index = (current_edge_index + 1) % EDGE_COUNT;
+        current_edge_index = (current_edge_index + 1) % NUM_EDGES;
         current            = coordinates[current_edge_index];
     }
 
@@ -84,7 +81,9 @@ class DodecaTestPattern {
     IndexPair previous = {};
     IndexPair current  = {};
 
-    IndexPair coordinates[EDGE_COUNT] = {};
+    IndexPair coordinates[NUM_EDGES] = {};
+
+    const size_t LEDS_PER_EDGE;
 
     Dodecahedron dod;
 };

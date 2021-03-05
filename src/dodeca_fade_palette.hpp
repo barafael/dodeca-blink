@@ -22,7 +22,7 @@ class DodecaFadePalette {
 
     void advance() {
         for (size_t strip = 0; strip < STRIP_COUNT; strip++) {
-            fill_palette(led_array[strip], NUM_LEDS, paletteIndex, 255 / NUM_LEDS, palette, 255, LINEARBLEND);
+            fill_palette(led_array[strip], LEDS_PER_STRIP, paletteIndex, 255 / LEDS_PER_STRIP, palette, 255, LINEARBLEND);
         }
         paletteIndex++;
     }
