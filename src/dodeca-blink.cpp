@@ -10,7 +10,7 @@
 
 DodecaRandomBlink random_blink;
 DodecaFadePalette fading;
-//DodecaTestPattern test_pattern(edges);
+DodecaTestPattern test_pattern;
 
 void setup() {
     Serial.begin(115200);
@@ -27,16 +27,20 @@ void setup() {
     FastLED.addLeds<WS2811, DATA_PIN_6, GRB>(led_array[5], NUM_LEDS);
 
     FastLED.setBrightness(55);
+    test_pattern.advance();
 }
 
 void loop() {
-#define DODECA_FADE_PALETTE
+//#define DODECA_FADE_PALETTE
+#define DODECA_TEST_PATTERN
+
 #ifdef RANDOM_BLINK
     EVERY_N_MILLISECONDS(20) {
         random_blink.advance();
     }
-#elif defined(DODECAHEDRON_TEST_PATTERN)
+#elif defined(DODECA_TEST_PATTERN)
     EVERY_N_MILLISECONDS(500) {
+        test_pattern.advance();
     }
 #elif defined(DODECA_FADE_PALETTE)
     EVERY_N_MILLISECONDS(20) {

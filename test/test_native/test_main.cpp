@@ -12,13 +12,10 @@ void tearDown(void) {
     // clean stuff up here
 }
 
-void process() {
+int main(int argc, char **argv) {
     Test_NativeQueue::test_all();
     Test_NativeDodecahedron::test_all();
     Test_NativeMap::test_all();
-}
 
-int main(int argc, char **argv) {
-    process();
     return 0;
 }

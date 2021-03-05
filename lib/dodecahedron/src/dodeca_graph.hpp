@@ -2,10 +2,11 @@
 #define DODECA_GRAPH_HPP
 
 #include <cstddef>
+#include <array>
 
 class Node {
   public:
-    size_t edge_index[3];
+    std::array<size_t, 3> edge_index = {};
 };
 
 class Edge {
@@ -20,7 +21,7 @@ class Edge {
       return -1;
     }
 
-    size_t node_index[2];
+    std::array<size_t, 2> node_index = {};
 };
 
 #endif// DODECA_GRAPH_HPP
