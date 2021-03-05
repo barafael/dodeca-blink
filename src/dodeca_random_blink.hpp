@@ -1,5 +1,5 @@
-#ifndef DODECA_RANDOM_BLINK
-#define DODECA_RANDOM_BLINK
+#ifndef DODECA_RANDOM_BLINK_HPP
+#define DODECA_RANDOM_BLINK_HPP
 
 #include "FastLED.h"
 #include "constants.hpp"
@@ -32,4 +32,4 @@ class DodecaRandomBlink {
     RandomBlinkState states[STRIP_COUNT][NUM_RANDOM_BLINK_STATES] = {};
 };
 
-#endif// DODECA_RANDOM_BLINK
+#endif// DODECA_RANDOM_BLINK_HPP

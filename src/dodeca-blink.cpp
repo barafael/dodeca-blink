@@ -32,15 +32,15 @@ void setup() {
     FastLED.addLeds<WS2811, DATA_PIN_6, GRB>(led_array[5], LEDS_PER_STRIP);
 
     FastLED.setBrightness(25);
-    test_pattern.advance();
 }
 
 void loop() {
 //#define DODECA_FADE_PALETTE
-//#define DODECA_TEST_PATTERN
-#define DODECA_COLOR_SPARKLE
+#define DODECA_TEST_PATTERN
+//#define DODECA_COLOR_SPARKLE
+//#define DODECA_RANDOM_BLINK
 
-#ifdef RANDOM_BLINK
+#ifdef DODECA_RANDOM_BLINK
     EVERY_N_MILLISECONDS(20) {
         random_blink.advance();
     }

@@ -79,7 +79,7 @@ class DodecaTestPattern {
     size_t current_edge_index = 0;
 
     IndexPair previous = {};
-    IndexPair current  = {};
+    IndexPair current = {};
 
     IndexPair coordinates[NUM_EDGES] = {};
 

@@ -1,5 +1,5 @@
-#ifndef DODECA_COLOR_FADE_HPP
-#define DODECA_COLOR_FADE_HPP
+#ifndef DODECA_COLOR_SPARKLE_HPP
+#define DODECA_COLOR_SPARKLE_HPP
 
 #include "FastLED.h"
 #include "constants.hpp"
