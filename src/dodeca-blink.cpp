@@ -1,4 +1,7 @@
-#include "BluetoothSerial.h"
+#include <Arduino.h>
+#include <FastLED.h>
+#include <BluetoothSerial.h>
+
 #include "constants.hpp"
 #include "dodeca_color_sparkle.hpp"
 #include "dodeca_fade_palette.hpp"
@@ -6,9 +9,6 @@
 #include "dodeca_test_pattern.hpp"
 #include "dodecahedron.hpp"
 #include "leds.hpp"
-
-#include <Arduino.h>
-#include <FastLED.h>
 
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
     #error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
@@ -45,15 +45,18 @@ void setup() {
 
 enum class Command : uint32_t
 {
-    FORWARD  = 'f',
-    BACKWARD = 'b',
-    ACTION_A = 'A',
-    ACTION_B = 'B',
-    ACTION_C = 'C',
+    NONE = 0,
+
+    INCREASE_BRIGHTNESS = 'i',
+    DECREASE_BRIGHTNESS = 'd',
+
+    ACTION_A = 'a',
+    ACTION_B = 'b',
+    ACTION_C = 'c',
 };
 
 bool is_command(int val) {
-    return val == 'f' || val == 'b' || val == 'A' || val == 'B' || val == 'C';
+    return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c';
 }
 
 enum class State : uint32_t
@@ -69,6 +72,9 @@ bool is_state(int val) {
 }
 
 State state = State::FADE_PALETTE_STATE;
+Command command = Command::NONE;
+
+int brightness = INITIAL_BRIGHTNESS;
 
 void loop() {
     if (Serial.available()) {
@@ -79,9 +85,33 @@ void loop() {
         if (is_state(val)) {
             state   = (State)val;
             FastLED.clear();
+        } else if (is_command(val)) {
+            command = (Command)val;
         }
         Serial.write(val);
     }
+
+    switch (command) {
+        case Command::NONE:
+        break;
+        case Command::INCREASE_BRIGHTNESS: {
+            if (brightness + BRIGHTNESS_STEP < 256) {
+                brightness += BRIGHTNESS_STEP;
+            }
+        }
+        break;
+        case Command::DECREASE_BRIGHTNESS: {
+            if (brightness > BRIGHTNESS_STEP) {
+                brightness -= BRIGHTNESS_STEP;
+            }
+        }
+        break;
+        case Command::ACTION_A:
+        case Command::ACTION_B:
+        case Command::ACTION_C:
+        break;
+    }
+    command = Command::NONE;
 
     switch (state) {
         case State::FADE_PALETTE_STATE: {
@@ -107,6 +137,8 @@ void loop() {
         }
         break;
     }
-    FastLED.setBrightness(25);
+
+    // TODO if bored: animate brightness change :)
+    FastLED.setBrightness(brightness);
     FastLED.show();
 }
