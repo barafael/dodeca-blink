@@ -3,6 +3,7 @@
 #include <BluetoothSerial.h>
 
 #include "constants.hpp"
+#include "pins.hpp"
 #include "dodeca_color_sparkle.hpp"
 #include "dodeca_fade_palette.hpp"
 #include "dodeca_random_blink.hpp"
