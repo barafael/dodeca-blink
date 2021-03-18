@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <BluetoothSerial.h>
+#include <Preferences.h>
 
 #include "constants.hpp"
 #include "pins.hpp"
@@ -24,25 +25,7 @@ DodecaFadePalette fading;
 DodecaTestPattern test_pattern(LEDS_PER_EDGE);
 DodecaColorSparkle sparkling;
 
-void setup() {
-    // sanity check delay - allows reprogramming if accidently blowing power w/leds
-    delay(1000);
-
-    Serial.begin(115200);
-
-    SerialBT.begin("Dodeca lamp BT control");
-
-    random16_add_entropy(random(19885678));
-
-    FastLED.addLeds<WS2811, DATA_PIN_1, GRB>(led_array[0], LEDS_PER_STRIP);
-    FastLED.addLeds<WS2811, DATA_PIN_2, GRB>(led_array[1], LEDS_PER_STRIP);
-    FastLED.addLeds<WS2811, DATA_PIN_3, GRB>(led_array[2], LEDS_PER_STRIP);
-    FastLED.addLeds<WS2811, DATA_PIN_4, GRB>(led_array[3], LEDS_PER_STRIP);
-    FastLED.addLeds<WS2811, DATA_PIN_5, GRB>(led_array[4], LEDS_PER_STRIP);
-    FastLED.addLeds<WS2811, DATA_PIN_6, GRB>(led_array[5], LEDS_PER_STRIP);
-
-    FastLED.setBrightness(128);
-}
+Preferences persistent_state;
 
 enum class Command : uint32_t
 {
@@ -60,7 +43,9 @@ bool is_command(int val) {
     return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c';
 }
 
-enum class State : uint32_t
+Command command = Command::NONE;
+
+enum class LampState : uint32_t
 {
     FADE_PALETTE_STATE = 'P',
     TEST_PATTERN_STATE = 'T',
@@ -72,38 +57,81 @@ bool is_state(int val) {
     return val == 'P' || val == 'T' || val == 'S' || val == 'R';
 }
 
-State state = State::FADE_PALETTE_STATE;
-Command command = Command::NONE;
+class LampSettings {
+  public:
+    LampState lamp_state = LampState::FADE_PALETTE_STATE;
+    uint8_t brightness = INITIAL_BRIGHTNESS;
+};
 
-int brightness = INITIAL_BRIGHTNESS;
+LampSettings settings;
+
+void setup() {
+    // sanity check delay - allows reprogramming if accidently blowing power w/leds
+    delay(500);
+
+    Serial.begin(115200);
+
+    persistent_state.begin("settings", false);
+    settings.lamp_state = (LampState)persistent_state.getUInt("lamp-state", (uint32_t)LampState::FADE_PALETTE_STATE);
+    settings.brightness = persistent_state.getUChar("brightness", INITIAL_BRIGHTNESS);
+
+    char ssid1[15];
+    char ssid2[15];
+
+    uint64_t chipid = ESP.getEfuseMac();
+    uint16_t chip = (uint16_t)(chipid >> 32);
+
+    // TODO use chip id for id string?
+    snprintf(ssid1, 15, "%04X", chip);
+    snprintf(ssid2, 15, "%08X", (uint32_t)chipid);
+
+    String id = "Dodeca lamp BlueTooth control";
+    SerialBT.begin(id);
+
+    random16_add_entropy(random(19885678));
+
+    FastLED.addLeds<WS2811, DATA_PIN_1, GRB>(led_array[0], LEDS_PER_STRIP);
+    FastLED.addLeds<WS2811, DATA_PIN_2, GRB>(led_array[1], LEDS_PER_STRIP);
+    FastLED.addLeds<WS2811, DATA_PIN_3, GRB>(led_array[2], LEDS_PER_STRIP);
+    FastLED.addLeds<WS2811, DATA_PIN_4, GRB>(led_array[3], LEDS_PER_STRIP);
+    FastLED.addLeds<WS2811, DATA_PIN_5, GRB>(led_array[4], LEDS_PER_STRIP);
+    FastLED.addLeds<WS2811, DATA_PIN_6, GRB>(led_array[5], LEDS_PER_STRIP);
+
+    FastLED.setBrightness(INITIAL_BRIGHTNESS);
+}
 
 void loop() {
-    if (Serial.available()) {
-        SerialBT.write(Serial.read());
-    }
     if (SerialBT.available()) {
-        int val = SerialBT.read();
+        uint32_t val = SerialBT.read();
         if (is_state(val)) {
-            state   = (State)val;
+            settings.lamp_state = (LampState)val;
+            persistent_state.putUInt("lamp-state", val);
             FastLED.clear();
         } else if (is_command(val)) {
             command = (Command)val;
         }
-        Serial.write(val);
     }
 
     switch (command) {
         case Command::NONE:
         break;
         case Command::INCREASE_BRIGHTNESS: {
-            if (brightness + BRIGHTNESS_STEP < 256) {
-                brightness += BRIGHTNESS_STEP;
+            if (settings.brightness + BRIGHTNESS_STEP < 256) {
+                settings.brightness += BRIGHTNESS_STEP;
+                SerialBT.println(settings.brightness);
+                persistent_state.putUChar("brightness", settings.brightness);
+            } else {
+                SerialBT.println("max brightness");
             }
         }
         break;
         case Command::DECREASE_BRIGHTNESS: {
-            if (brightness > BRIGHTNESS_STEP) {
-                brightness -= BRIGHTNESS_STEP;
+            if (settings.brightness > BRIGHTNESS_STEP) {
+                settings.brightness -= BRIGHTNESS_STEP;
+                SerialBT.println(settings.brightness);
+                persistent_state.putUChar("brightness", settings.brightness);
+            } else {
+                SerialBT.println("min brightness");
             }
         }
         break;
@@ -114,24 +142,24 @@ void loop() {
     }
     command = Command::NONE;
 
-    switch (state) {
-        case State::FADE_PALETTE_STATE: {
+    switch (settings.lamp_state) {
+        case LampState::FADE_PALETTE_STATE: {
             EVERY_N_MILLISECONDS(20) {
                 fading.advance();
             }
         }
         break;
-        case State::TEST_PATTERN_STATE: {
+        case LampState::TEST_PATTERN_STATE: {
             EVERY_N_MILLISECONDS(500) {
                 test_pattern.advance();
             }
         }
         break;
-        case State::COLOR_SPARKLE_STATE: {
+        case LampState::COLOR_SPARKLE_STATE: {
             sparkling.advance();
         }
         break;
-        case State::RANDOM_BLINK_STATE: {
+        case LampState::RANDOM_BLINK_STATE: {
             EVERY_N_MILLISECONDS(20) {
                 random_blink.advance();
             }
@@ -140,6 +168,6 @@ void loop() {
     }
 
     // TODO if bored: animate brightness change :)
-    FastLED.setBrightness(brightness);
+    FastLED.setBrightness(settings.brightness);
     FastLED.show();
 }
