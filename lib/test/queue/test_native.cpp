@@ -24,8 +24,8 @@ void test_push() {
 void test_queue_push_overwrite() {
     Queue<int, 4> q;
 
-    q.push(1);
-    TEST_ASSERT(*q.peek() == 1);
+    q.push(8);
+    TEST_ASSERT(*q.peek() == 8);
     TEST_ASSERT(q.len() == 1);
 
     q.push(4);
@@ -48,6 +48,7 @@ void test_queue_push_overwrite() {
     TEST_ASSERT(q.pop() == 4);
     TEST_ASSERT(q.len() == 3);
 
+    TEST_ASSERT(*q.peek() == 5);
     TEST_ASSERT(q.pop() == 5);
     TEST_ASSERT(q.len() == 2);
 
@@ -56,8 +57,6 @@ void test_queue_push_overwrite() {
 
     TEST_ASSERT(q.pop() == 7);
     TEST_ASSERT(q.len() == 0);
-    TEST_ASSERT(q.is_empty());
-
     TEST_ASSERT(q.is_empty());
 }
 
