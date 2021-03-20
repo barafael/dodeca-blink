@@ -65,6 +65,8 @@ class LampSettings {
 
 LampSettings settings;
 
+uint8_t actual_brightness;
+
 void setup() {
     // sanity check delay - allows reprogramming if accidently blowing power w/leds
     delay(500);
@@ -74,6 +76,7 @@ void setup() {
     persistent_state.begin("settings", false);
     settings.lamp_state = (LampState)persistent_state.getUInt("lamp-state", (uint32_t)LampState::FADE_PALETTE_STATE);
     settings.brightness = persistent_state.getUChar("brightness", INITIAL_BRIGHTNESS);
+    actual_brightness = settings.brightness;
 
     char ssid1[15];
     char ssid2[15];
@@ -167,7 +170,13 @@ void loop() {
         break;
     }
 
-    // TODO if bored: animate brightness change :)
-    FastLED.setBrightness(settings.brightness);
+    EVERY_N_MILLISECONDS(FADE_INTERVAL_MS) {
+        if (actual_brightness < settings.brightness) {
+            actual_brightness += FADE_STEP;
+        } else if (actual_brightness > settings.brightness) {
+            actual_brightness -= FADE_STEP;
+        }
+    }
+    FastLED.setBrightness(actual_brightness);
     FastLED.show();
 }
