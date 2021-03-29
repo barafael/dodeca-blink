@@ -15,8 +15,10 @@ class RandomBlinkState {
     CHSV color;
 
     void randomize(size_t max_index);
+    void randomize(size_t max_index, CHSV color);
 
     void advance(CRGB leds[], size_t max_index);
+    void advance(CRGB leds[], size_t max_index, CHSV color);
 };
 
 #endif// RANDOM_BLINK_STATE_HPP

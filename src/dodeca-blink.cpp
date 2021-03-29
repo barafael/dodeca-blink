@@ -24,10 +24,12 @@
 BluetoothSerial SerialBT;
 #endif
 
-DodecaRandomBlink random_blink;
 DodecaFadePalette fading;
 DodecaTestPattern test_pattern(LEDS_PER_EDGE);
 DodecaColorSparkle sparkling;
+DodecaRandomBlink random_blink;
+DodecaRandomBlink blue_blink(rgb2hsv_approximate(CRGB::DarkBlue));
+DodecaRandomBlink white_blink(CHSV(0, 0, 100));
 
 Preferences persistent_state;
 
@@ -167,6 +169,18 @@ void loop() {
         case LampState::RANDOM_BLINK_STATE: {
             EVERY_N_MILLISECONDS(20) {
                 random_blink.advance();
+            }
+        }
+        break;
+        case LampState::BLUE_BLINK_STATE: {
+            EVERY_N_MILLISECONDS(20) {
+                blue_blink.advance();
+            }
+        }
+        break;
+        case LampState::WHITE_BLINK_STATE: {
+            EVERY_N_MILLISECONDS(20) {
+                white_blink.advance();
             }
         }
         break;

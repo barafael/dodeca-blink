@@ -26,17 +26,17 @@ enum class LampState : uint32_t
     TEST_PATTERN_STATE  = 'T',
     COLOR_SPARKLE_STATE = 'S',
     RANDOM_BLINK_STATE  = 'R',
+    BLUE_BLINK_STATE    = 'B',
+    WHITE_BLINK_STATE   = 'W',
 };
 
 bool is_state(int val) {
-    return val == 'P' || val == 'T' || val == 'S' || val == 'R';
+    return val == 'P' || val == 'T' || val == 'S' || val == 'R' || val == 'B' || val == 'W';
 }
 
 const LampState state_sequence[] = {
-    LampState::FADE_PALETTE_STATE,
-    LampState::TEST_PATTERN_STATE,
-    LampState::COLOR_SPARKLE_STATE,
-    LampState::RANDOM_BLINK_STATE,
+    LampState::FADE_PALETTE_STATE, LampState::TEST_PATTERN_STATE, LampState::COLOR_SPARKLE_STATE,
+    LampState::RANDOM_BLINK_STATE, LampState::BLUE_BLINK_STATE,   LampState::WHITE_BLINK_STATE,
 };
 
 LampState next_state(LampState current) {
@@ -51,6 +51,12 @@ LampState next_state(LampState current) {
             return LampState::RANDOM_BLINK_STATE;
             break;
         case LampState::RANDOM_BLINK_STATE:
+            return LampState::BLUE_BLINK_STATE;
+            break;
+        case LampState::BLUE_BLINK_STATE:
+            return LampState::WHITE_BLINK_STATE;
+            break;
+        case LampState::WHITE_BLINK_STATE:
             return LampState::FADE_PALETTE_STATE;
             break;
     }
@@ -59,7 +65,7 @@ LampState next_state(LampState current) {
 LampState previous_state(LampState current) {
     switch (current) {
         case LampState::FADE_PALETTE_STATE:
-            return LampState::RANDOM_BLINK_STATE;
+            return LampState::WHITE_BLINK_STATE;
             break;
         case LampState::TEST_PATTERN_STATE:
             return LampState::FADE_PALETTE_STATE;
@@ -69,6 +75,12 @@ LampState previous_state(LampState current) {
             break;
         case LampState::RANDOM_BLINK_STATE:
             return LampState::COLOR_SPARKLE_STATE;
+            break;
+        case LampState::BLUE_BLINK_STATE:
+            return LampState::RANDOM_BLINK_STATE;
+            break;
+        case LampState::WHITE_BLINK_STATE:
+            return LampState::BLUE_BLINK_STATE;
             break;
     }
 }

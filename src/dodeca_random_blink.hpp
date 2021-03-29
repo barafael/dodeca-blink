@@ -20,6 +20,14 @@ class DodecaRandomBlink {
         }
     }
 
+    DodecaRandomBlink(CHSV color) {
+        for (size_t i = 0; i < STRIP_COUNT; i++) {
+            for (size_t j = 0; j < NUM_RANDOM_BLINK_STATES; j++) {
+                states[i][j].randomize(LEDS_PER_STRIP - 1, color);
+            }
+        }
+    }
+
     void advance() {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < NUM_RANDOM_BLINK_STATES; j++) {
