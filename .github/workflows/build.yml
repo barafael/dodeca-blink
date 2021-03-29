@@ -28,4 +28,4 @@ jobs:
         python -m pip install --upgrade pip
         pip install --upgrade platformio
     - name: Run PlatformIO
-      run: pio run -e pico32
+      run: pio run -e pico32 && pio run -e devkit
