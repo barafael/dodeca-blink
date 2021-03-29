@@ -4,6 +4,7 @@
 #include "FastLED.h"
 #include "constants.hpp"
 #include "led_data.hpp"
+#include "state.hpp"
 
 #include <cstddef>
 
@@ -40,7 +41,7 @@ DEFINE_GRADIENT_PALETTE(yellowred_gp) {
 CRGBPalette16 current_palette(greenblue_gp);
 CRGBPalette16 target_palette(orangepink_gp);
 
-class DodecaColorSparkle {
+class DodecaColorSparkle: public DodecaState {
   public:
     DodecaColorSparkle() {
         for (size_t i = 0; i < LEDS_PER_STRIP; i++) {
@@ -48,7 +49,7 @@ class DodecaColorSparkle {
         }
     }
 
-    void advance() {
+    void advance() override {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < LEDS_PER_STRIP; j++) {
                 led_array[i][j] = ColorFromPalette(current_palette, color_index[j]);

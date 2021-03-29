@@ -6,6 +6,7 @@
 #include "constants.hpp"
 #include "dodecahedron.hpp"
 #include "led_data.hpp"
+#include "state.hpp"
 
 #include <array>
 #include <cstddef>
@@ -20,7 +21,7 @@ class IndexPair {
     size_t index = 0;
 };
 
-class DodecaTestPattern {
+class DodecaTestPattern: public DodecaState {
   public:
     explicit DodecaTestPattern(const size_t leds_per_edge): LEDS_PER_EDGE(leds_per_edge) {
         coordinates[0]  = {0, 0 * LEDS_PER_EDGE};
@@ -60,7 +61,7 @@ class DodecaTestPattern {
         coordinates[14] = {5, 4 * LEDS_PER_EDGE};
     }
 
-    void advance() {
+    void advance() override {
         // Reset old LEDs
         for (size_t i = 0; i < LEDS_PER_EDGE; i++) {
             led_array[previous.strip][previous.index + i] = CRGB::Black;

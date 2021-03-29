@@ -5,12 +5,13 @@
 #include "constants.hpp"
 #include "led_data.hpp"
 #include "random_blink_state.hpp"
+#include "state.hpp"
 
 #include <cstddef>
 
 constexpr size_t NUM_RANDOM_BLINK_STATES = 8;
 
-class DodecaRandomBlink {
+class DodecaRandomBlink: public DodecaState {
   public:
     DodecaRandomBlink() {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
@@ -28,7 +29,7 @@ class DodecaRandomBlink {
         }
     }
 
-    void advance() {
+    void advance() override {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < NUM_RANDOM_BLINK_STATES; j++) {
                 states[i][j].advance(led_array[i], LEDS_PER_STRIP - 1);

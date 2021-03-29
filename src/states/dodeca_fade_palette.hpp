@@ -4,6 +4,7 @@
 #include "FastLED.h"
 #include "constants.hpp"
 #include "led_data.hpp"
+#include "state.hpp"
 
 #include <cstddef>
 
@@ -16,11 +17,11 @@ DEFINE_GRADIENT_PALETTE (color_palette) {
   255, 0, 0, 0
 };
 
-class DodecaFadePalette {
+class DodecaFadePalette: public DodecaState {
   public:
     DodecaFadePalette() = default;
 
-    void advance() {
+    void advance() override {
         for (size_t strip = 0; strip < STRIP_COUNT; strip++) {
             fill_palette(led_array[strip], LEDS_PER_STRIP, paletteIndex, 255 / LEDS_PER_STRIP, palette, 255, LINEARBLEND);
         }
