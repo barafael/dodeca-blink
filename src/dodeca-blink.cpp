@@ -1,7 +1,14 @@
 #include <Arduino.h>
 #include <FastLED.h>
-#include <BluetoothSerial.h>
 #include <Preferences.h>
+
+#define ENABLE_BLUETOOTH
+#ifdef ENABLE_BLUETOOTH
+    #include <BluetoothSerial.h>
+    #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
+        #error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
+    #endif
+#endif
 
 #include "constants.hpp"
 #include "pins.hpp"
@@ -11,14 +18,11 @@
 #include "dodeca_test_pattern.hpp"
 #include "dodecahedron.hpp"
 #include "leds.hpp"
+#include "command.hpp"
 
-#if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-    #error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
-#endif
-
+#ifdef ENABLE_BLUETOOTH
 BluetoothSerial SerialBT;
-
-constexpr size_t LEDS_PER_EDGE = 20;
+#endif
 
 DodecaRandomBlink random_blink;
 DodecaFadePalette fading;
@@ -27,35 +31,7 @@ DodecaColorSparkle sparkling;
 
 Preferences persistent_state;
 
-enum class Command : uint32_t
-{
-    NONE = 0,
-
-    INCREASE_BRIGHTNESS = 'i',
-    DECREASE_BRIGHTNESS = 'd',
-
-    ACTION_A = 'a',
-    ACTION_B = 'b',
-    ACTION_C = 'c',
-};
-
-bool is_command(int val) {
-    return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c';
-}
-
 Command command = Command::NONE;
-
-enum class LampState : uint32_t
-{
-    FADE_PALETTE_STATE = 'P',
-    TEST_PATTERN_STATE = 'T',
-    COLOR_SPARKLE_STATE = 'S',
-    RANDOM_BLINK_STATE = 'R',
-};
-
-bool is_state(int val) {
-    return val == 'P' || val == 'T' || val == 'S' || val == 'R';
-}
 
 class LampSettings {
   public:
@@ -69,7 +45,7 @@ uint8_t actual_brightness;
 
 void setup() {
     // sanity check delay - allows reprogramming if accidently blowing power w/leds
-    delay(500);
+    delay(1000);
 
     Serial.begin(115200);
 
@@ -88,8 +64,10 @@ void setup() {
     snprintf(ssid1, 15, "%04X", chip);
     snprintf(ssid2, 15, "%08X", (uint32_t)chipid);
 
+    #ifdef ENABLE_BLUETOOTH
     String id = "Dodeca lamp BlueTooth control";
     SerialBT.begin(id);
+    #endif
 
     random16_add_entropy(random(19885678));
 
@@ -100,10 +78,11 @@ void setup() {
     FastLED.addLeds<WS2811, DATA_PIN_5, GRB>(led_array[4], LEDS_PER_STRIP);
     FastLED.addLeds<WS2811, DATA_PIN_6, GRB>(led_array[5], LEDS_PER_STRIP);
 
-    FastLED.setBrightness(INITIAL_BRIGHTNESS);
+    FastLED.setBrightness(settings.brightness);
 }
 
 void loop() {
+    #ifdef ENABLE_BLUETOOTH
     if (SerialBT.available()) {
         uint32_t val = SerialBT.read();
         if (is_state(val)) {
@@ -114,6 +93,7 @@ void loop() {
             command = (Command)val;
         }
     }
+    #endif // ENABLE_BLUETOOTH
 
     switch (command) {
         case Command::NONE:
@@ -121,21 +101,43 @@ void loop() {
         case Command::INCREASE_BRIGHTNESS: {
             if (settings.brightness + BRIGHTNESS_STEP < 256) {
                 settings.brightness += BRIGHTNESS_STEP;
+                #ifdef ENABLE_BLUETOOTH
                 SerialBT.println(settings.brightness);
+                #endif
                 persistent_state.putUChar("brightness", settings.brightness);
             } else {
+                #ifdef ENABLE_BLUETOOTH
                 SerialBT.println("max brightness");
+                #endif
             }
         }
         break;
         case Command::DECREASE_BRIGHTNESS: {
             if (settings.brightness > BRIGHTNESS_STEP) {
                 settings.brightness -= BRIGHTNESS_STEP;
+                #ifdef ENABLE_BLUETOOTH
                 SerialBT.println(settings.brightness);
+                #endif
                 persistent_state.putUChar("brightness", settings.brightness);
             } else {
+                #ifdef ENABLE_BLUETOOTH
                 SerialBT.println("min brightness");
+                #endif
             }
+        }
+        break;
+        case Command::NEXT_STATE: {
+            LampState next = next_state(settings.lamp_state);
+            settings.lamp_state = next;
+            persistent_state.putUInt("lamp-state", (int)next);
+            FastLED.clear();
+        }
+        break;
+        case Command::PREVIOUS_STATE: {
+            LampState previous = previous_state(settings.lamp_state);
+            settings.lamp_state = previous;
+            persistent_state.putUInt("lamp-state", (int)previous);
+            FastLED.clear();
         }
         break;
         case Command::ACTION_A:
