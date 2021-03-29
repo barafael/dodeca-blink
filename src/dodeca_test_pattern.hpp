@@ -5,7 +5,7 @@
 #include "FastLED.h"
 #include "constants.hpp"
 #include "dodecahedron.hpp"
-#include "leds.hpp"
+#include "led_data.hpp"
 
 #include <array>
 #include <cstddef>

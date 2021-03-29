@@ -3,7 +3,7 @@
 
 #include "FastLED.h"
 #include "constants.hpp"
-#include "leds.hpp"
+#include "led_data.hpp"
 #include "random_blink_state.hpp"
 
 #include <cstddef>

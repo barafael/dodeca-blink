@@ -17,7 +17,7 @@
 #include "dodeca_random_blink.hpp"
 #include "dodeca_test_pattern.hpp"
 #include "dodecahedron.hpp"
-#include "leds.hpp"
+#include "led_data.hpp"
 #include "command.hpp"
 
 #ifdef ENABLE_BLUETOOTH
