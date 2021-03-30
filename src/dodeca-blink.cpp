@@ -21,6 +21,8 @@
 #include "command.hpp"
 #include "ColorProviders/random_color_provider.hpp"
 #include "ColorProviders/solid_color_provider.hpp"
+#include "ColorProviders/palette_color_provider.hpp"
+#include "palettes.hpp"
 
 #ifdef ENABLE_BLUETOOTH
 BluetoothSerial SerialBT;
@@ -28,7 +30,8 @@ BluetoothSerial SerialBT;
 
 RandomColorProvider random_color;
 SolidColorProvider blue_color(rgb2hsv_approximate(CRGB::Blue));
-SolidColorProvider white_color(rgb2hsv_approximate(CRGB::White));
+//SolidColorProvider white_color(rgb2hsv_approximate(CRGB::White));
+PaletteColorProvider white_color(es_rivendell_01_gp);
 
 DodecaFadePalette fading;
 DodecaTestPattern test_pattern(LEDS_PER_EDGE);

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Producer.hpp"
+#include "producer.hpp"
 
 #include <FastLED.h>
 
 class PaletteColorProvider: public Producer<CHSV> {
   public:
-    explicit PaletteColorProvider(CRGBPalette16 &const palette): palette(palette) {
+    explicit PaletteColorProvider(CRGBPalette16 palette): palette(palette) {
     }
 
     void set_palette(CRGBPalette16 palette) {
