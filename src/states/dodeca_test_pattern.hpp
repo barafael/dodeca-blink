@@ -6,7 +6,7 @@
 #include "constants.hpp"
 #include "dodecahedron.hpp"
 #include "led_data.hpp"
-#include "state.hpp"
+#include "dodeca_state.hpp"
 
 #include <array>
 #include <cstddef>
@@ -62,7 +62,14 @@ class DodecaTestPattern: public DodecaState {
     }
 
     bool do_thing(uint8_t id) override {
-        return false;
+        switch (id) {
+            case 'a':
+                call_counter = SKIP_COUNTER;
+                return true;
+            break;
+            default:
+                return false;
+        }
     }
 
     bool do_thing(uint8_t id, uint8_t* args, size_t count) override {
@@ -70,6 +77,13 @@ class DodecaTestPattern: public DodecaState {
     }
 
     void advance() override {
+        if (call_counter < SKIP_COUNTER) {
+            call_counter += 1;
+            return;
+        } else {
+            call_counter = 0;
+        }
+
         // Reset old LEDs
         for (size_t i = 0; i < LEDS_PER_EDGE; i++) {
             led_array[previous.strip][previous.index + i] = CRGB::Black;
@@ -95,6 +109,9 @@ class DodecaTestPattern: public DodecaState {
     const size_t LEDS_PER_EDGE;
 
     Dodecahedron dod;
+
+    size_t call_counter = 0;
+    const size_t SKIP_COUNTER = 100;
 };
 
 #endif// DODECA_TEST_PATTERN_HPP

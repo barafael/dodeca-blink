@@ -4,7 +4,7 @@
 #include "FastLED.h"
 #include "constants.hpp"
 #include "led_data.hpp"
-#include "state.hpp"
+#include "dodeca_state.hpp"
 
 #include <cstddef>
 

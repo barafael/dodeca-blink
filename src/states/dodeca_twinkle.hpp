@@ -8,8 +8,9 @@
 #include "constants.hpp"
 #include "led_data.hpp"
 #include "dodeca_twinkle.hpp"
-#include "state.hpp"
+#include "dodeca_state.hpp"
 #include "command.hpp"
+
 #include "ColorProviders/twinkle_state.hpp"
 
 constexpr size_t NUM_RANDOM_BLINK_STATES = 8;

@@ -10,12 +10,14 @@
     #endif
 #endif
 
-#include "constants.hpp"
-#include "pins.hpp"
 #include "states/dodeca_color_sparkle.hpp"
 #include "states/dodeca_fade_palette.hpp"
 #include "states/dodeca_twinkle.hpp"
 #include "states/dodeca_test_pattern.hpp"
+#include "states/blink_states.hpp"
+
+#include "constants.hpp"
+#include "pins.hpp"
 #include "dodecahedron.hpp"
 #include "led_data.hpp"
 #include "command.hpp"
@@ -23,6 +25,7 @@
 #include "ColorProviders/solid_color_provider.hpp"
 #include "ColorProviders/palette_color_provider.hpp"
 #include "palettes.hpp"
+#include "lamp_settings.hpp"
 
 #ifdef ENABLE_BLUETOOTH
 BluetoothSerial SerialBT;
@@ -30,13 +33,14 @@ BluetoothSerial SerialBT;
 
 RandomColorProvider random_color;
 SolidColorProvider blue_color(rgb2hsv_approximate(CRGB::Blue));
-//SolidColorProvider white_color(rgb2hsv_approximate(CRGB::White));
-PaletteColorProvider white_color(es_rivendell_01_gp);
+SolidColorProvider white_color(rgb2hsv_approximate(CRGB::White));
+PaletteColorProvider palette_color(es_rivendell_01_gp);
 
 DodecaFadePalette fading;
 DodecaTestPattern test_pattern(LEDS_PER_EDGE);
 DodecaColorSparkle sparkling;
 DodecaTwinkle random_blink(random_color);
+DodecaTwinkle palette_blink(palette_color);
 DodecaTwinkle blue_blink(blue_color);
 DodecaTwinkle white_blink(white_color);
 
@@ -44,15 +48,11 @@ Preferences persistent_state;
 
 Command command = Command::NONE;
 
-class LampSettings {
-  public:
-    LampState lamp_state = LampState::FADE_PALETTE_STATE;
-    uint8_t brightness = INITIAL_BRIGHTNESS;
-};
-
-LampSettings settings;
+LampSettings settings(persistent_state);
 
 uint8_t actual_brightness;
+
+BlinkStates states(&fading);
 
 void setup() {
     // sanity check delay - allows reprogramming if accidently blowing power w/leds
@@ -60,10 +60,13 @@ void setup() {
 
     Serial.begin(115200);
 
+    // TODO move those to lamp settings without breaking persistence
     persistent_state.begin("settings", false);
-    settings.lamp_state = (LampState)persistent_state.getUInt("lamp-state", (uint32_t)LampState::FADE_PALETTE_STATE);
-    settings.brightness = persistent_state.getUChar("brightness", INITIAL_BRIGHTNESS);
-    actual_brightness = settings.brightness;
+
+    settings.set_index(persistent_state.getUInt("state-index", 0));
+    settings.set_brightness(persistent_state.getUChar("brightness", INITIAL_BRIGHTNESS));
+
+    actual_brightness = settings.get_brightness();
 
     char ssid1[15];
     char ssid2[15];
@@ -82,6 +85,14 @@ void setup() {
 
     random16_add_entropy(random(19885678));
 
+    states.add_state(&test_pattern);
+    states.add_state(&sparkling);
+    states.add_state(&random_blink);
+    states.add_state(&palette_blink);
+    states.add_state(&blue_blink);
+    states.add_state(&white_blink);
+    states.try_set_index(settings.get_index());
+
     FastLED.addLeds<LED_TYPE, DATA_PIN_1, GRB>(led_array[0], LEDS_PER_STRIP);
     FastLED.addLeds<LED_TYPE, DATA_PIN_2, GRB>(led_array[1], LEDS_PER_STRIP);
     FastLED.addLeds<LED_TYPE, DATA_PIN_3, GRB>(led_array[2], LEDS_PER_STRIP);
@@ -89,18 +100,14 @@ void setup() {
     FastLED.addLeds<LED_TYPE, DATA_PIN_5, GRB>(led_array[4], LEDS_PER_STRIP);
     FastLED.addLeds<LED_TYPE, DATA_PIN_6, GRB>(led_array[5], LEDS_PER_STRIP);
 
-    FastLED.setBrightness(settings.brightness);
+    FastLED.setBrightness(settings.get_brightness());
 }
 
 void loop() {
     #ifdef ENABLE_BLUETOOTH
     if (SerialBT.available()) {
         uint32_t val = SerialBT.read();
-        if (is_state(val)) {
-            settings.lamp_state = (LampState)val;
-            persistent_state.putUInt("lamp-state", val);
-            FastLED.clear();
-        } else if (is_command(val)) {
+        if (is_command(val)) {
             command = (Command)val;
         }
     }
@@ -110,12 +117,12 @@ void loop() {
         case Command::NONE:
         break;
         case Command::INCREASE_BRIGHTNESS: {
-            if (settings.brightness + BRIGHTNESS_STEP < 256) {
-                settings.brightness += BRIGHTNESS_STEP;
+            if (settings.get_brightness() + BRIGHTNESS_STEP < 256) {
+                settings.set_brightness(settings.get_brightness() + BRIGHTNESS_STEP);
+                settings.serialize();
                 #ifdef ENABLE_BLUETOOTH
-                SerialBT.println(settings.brightness);
+                SerialBT.println(settings.get_brightness());
                 #endif
-                persistent_state.putUChar("brightness", settings.brightness);
             } else {
                 #ifdef ENABLE_BLUETOOTH
                 SerialBT.println("max brightness");
@@ -124,12 +131,12 @@ void loop() {
         }
         break;
         case Command::DECREASE_BRIGHTNESS: {
-            if (settings.brightness > BRIGHTNESS_STEP) {
-                settings.brightness -= BRIGHTNESS_STEP;
+            if (settings.get_brightness() > BRIGHTNESS_STEP) {
+                settings.set_brightness(settings.get_brightness() - BRIGHTNESS_STEP);
+                settings.serialize();
                 #ifdef ENABLE_BLUETOOTH
-                SerialBT.println(settings.brightness);
+                SerialBT.println(settings.get_brightness());
                 #endif
-                persistent_state.putUChar("brightness", settings.brightness);
             } else {
                 #ifdef ENABLE_BLUETOOTH
                 SerialBT.println("min brightness");
@@ -138,67 +145,37 @@ void loop() {
         }
         break;
         case Command::NEXT_STATE: {
-            LampState next = next_state(settings.lamp_state);
-            settings.lamp_state = next;
-            persistent_state.putUInt("lamp-state", (int)next);
+            states.go_to_next();
+            settings.set_index(states.get_active_index());
+            settings.serialize();
             FastLED.clear();
         }
         break;
         case Command::PREVIOUS_STATE: {
-            LampState previous = previous_state(settings.lamp_state);
-            settings.lamp_state = previous;
-            persistent_state.putUInt("lamp-state", (int)previous);
+            states.go_to_previous();
+            settings.set_index(states.get_active_index());
+            settings.serialize();
             FastLED.clear();
         }
         break;
         case Command::ACTION_A:
+            states.get_active_state()->do_thing((uint8_t)Command::ACTION_A);
         case Command::ACTION_B:
+            states.get_active_state()->do_thing((uint8_t)Command::ACTION_B);
         case Command::ACTION_C:
+            states.get_active_state()->do_thing((uint8_t)Command::ACTION_C);
         break;
     }
     command = Command::NONE;
 
-    switch (settings.lamp_state) {
-        case LampState::FADE_PALETTE_STATE: {
-            EVERY_N_MILLISECONDS(20) {
-                fading.advance();
-            }
-        }
-        break;
-        case LampState::TEST_PATTERN_STATE: {
-            EVERY_N_MILLISECONDS(500) {
-                test_pattern.advance();
-            }
-        }
-        break;
-        case LampState::COLOR_SPARKLE_STATE: {
-            sparkling.advance();
-        }
-        break;
-        case LampState::RANDOM_BLINK_STATE: {
-            EVERY_N_MILLISECONDS(20) {
-                random_blink.advance();
-            }
-        }
-        break;
-        case LampState::BLUE_BLINK_STATE: {
-            EVERY_N_MILLISECONDS(20) {
-                blue_blink.advance();
-            }
-        }
-        break;
-        case LampState::WHITE_BLINK_STATE: {
-            EVERY_N_MILLISECONDS(20) {
-                white_blink.advance();
-            }
-        }
-        break;
+    EVERY_N_MILLISECONDS(20) {
+        states.get_active_state()->advance();
     }
 
     EVERY_N_MILLISECONDS(FADE_INTERVAL_MS) {
-        if (actual_brightness < settings.brightness) {
+        if (actual_brightness < settings.get_brightness()) {
             actual_brightness += FADE_STEP;
-        } else if (actual_brightness > settings.brightness) {
+        } else if (actual_brightness > settings.get_brightness()) {
             actual_brightness -= FADE_STEP;
         }
     }
