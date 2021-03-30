@@ -9,8 +9,12 @@ class SolidColorProvider: public Producer<CHSV> {
     explicit SolidColorProvider(CHSV color): color(color) {
     }
 
-    void setColor(CHSV color) {
+    void set_color(CHSV color) {
         this->color = color;
+    }
+
+    CHSV get_color() {
+        return color;
     }
 
     CHSV read() override {
