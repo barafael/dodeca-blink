@@ -82,12 +82,12 @@ void setup() {
 
     random16_add_entropy(random(19885678));
 
-    FastLED.addLeds<WS2811, DATA_PIN_1, GRB>(led_array[0], LEDS_PER_STRIP);
-    FastLED.addLeds<WS2811, DATA_PIN_2, GRB>(led_array[1], LEDS_PER_STRIP);
-    FastLED.addLeds<WS2811, DATA_PIN_3, GRB>(led_array[2], LEDS_PER_STRIP);
-    FastLED.addLeds<WS2811, DATA_PIN_4, GRB>(led_array[3], LEDS_PER_STRIP);
-    FastLED.addLeds<WS2811, DATA_PIN_5, GRB>(led_array[4], LEDS_PER_STRIP);
-    FastLED.addLeds<WS2811, DATA_PIN_6, GRB>(led_array[5], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_1, GRB>(led_array[0], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_2, GRB>(led_array[1], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_3, GRB>(led_array[2], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_4, GRB>(led_array[3], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_5, GRB>(led_array[4], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_6, GRB>(led_array[5], LEDS_PER_STRIP);
 
     FastLED.setBrightness(settings.brightness);
 }
