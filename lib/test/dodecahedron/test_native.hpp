@@ -1,8 +1,9 @@
-#ifndef TEST_NATIVE_DODECAHEDRON_HPP
-#define TEST_NATIVE_DODECAHEDRON_HPP
+#pragma once
+
+#include <iostream>
+
+#include <unity.h>
 
 namespace Test_NativeDodecahedron {
     void test_all();
 }
-
-#endif // TEST_NATIVE_DODECAHEDRON_HPP

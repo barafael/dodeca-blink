@@ -21,6 +21,14 @@ class DodecaFadePalette: public DodecaState {
   public:
     DodecaFadePalette() = default;
 
+    bool do_thing(uint8_t id) override {
+        return false;
+    }
+
+    bool do_thing(uint8_t id, uint8_t* args, size_t count) override {
+        return false;
+    }
+
     void advance() override {
         for (size_t strip = 0; strip < STRIP_COUNT; strip++) {
             fill_palette(led_array[strip], LEDS_PER_STRIP, paletteIndex, 255 / LEDS_PER_STRIP, palette, 255, LINEARBLEND);

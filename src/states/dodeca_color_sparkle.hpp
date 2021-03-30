@@ -49,6 +49,14 @@ class DodecaColorSparkle: public DodecaState {
         }
     }
 
+    bool do_thing(uint8_t id) override {
+        return false;
+    }
+
+    bool do_thing(uint8_t id, uint8_t* args, size_t count) override {
+        return false;
+    }
+
     void advance() override {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < LEDS_PER_STRIP; j++) {

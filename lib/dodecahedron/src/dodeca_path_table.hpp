@@ -1,5 +1,4 @@
-#ifndef DODECA_PATH_TABLE_HPP
-#define DODECA_PATH_TABLE_HPP
+#pragma once
 
 #include <cstddef>
 #include <cstdint>
@@ -54,5 +53,3 @@ class DodecaPathTable: public PathCalculator {
       Dodecahedron *dod;
       Path table[NUM_NODES][NUM_NODES] = {};
 };
-
-#endif// DODECA_PATH_TABLE_HPP

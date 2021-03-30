@@ -1,5 +1,4 @@
-#ifndef QUEUE_HPP
-#define QUEUE_HPP
+#pragma once
 
 #include <cstddef>
 #include <array>
@@ -48,5 +47,3 @@ class Queue {
     size_t num_elems   = 0;
     std::array<T, SIZE> data = {};
 };
-
-#endif // QUEUE_HPP

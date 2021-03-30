@@ -1,5 +1,4 @@
-#ifndef DODECA_GRAPH_HPP
-#define DODECA_GRAPH_HPP
+#pragma once
 
 #include <cstddef>
 #include <array>
@@ -23,5 +22,3 @@ class Edge {
 
     std::array<size_t, 2> node_index = {};
 };
-
-#endif// DODECA_GRAPH_HPP

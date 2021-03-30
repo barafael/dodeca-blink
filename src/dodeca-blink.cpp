@@ -14,22 +14,28 @@
 #include "pins.hpp"
 #include "states/dodeca_color_sparkle.hpp"
 #include "states/dodeca_fade_palette.hpp"
-#include "states/dodeca_random_blink.hpp"
+#include "states/dodeca_twinkle.hpp"
 #include "states/dodeca_test_pattern.hpp"
 #include "dodecahedron.hpp"
 #include "led_data.hpp"
 #include "command.hpp"
+#include "ColorProviders/RandomColorProvider.hpp"
+#include "ColorProviders/SolidColorProvider.hpp"
 
 #ifdef ENABLE_BLUETOOTH
 BluetoothSerial SerialBT;
 #endif
 
+RandomColorProvider random_color;
+SolidColorProvider blue_color(rgb2hsv_approximate(CRGB::Blue));
+SolidColorProvider white_color(rgb2hsv_approximate(CRGB::White));
+
 DodecaFadePalette fading;
 DodecaTestPattern test_pattern(LEDS_PER_EDGE);
 DodecaColorSparkle sparkling;
-DodecaRandomBlink random_blink;
-DodecaRandomBlink blue_blink(rgb2hsv_approximate(CRGB::DarkBlue));
-DodecaRandomBlink white_blink(CHSV(0, 0, 100));
+DodecaTwinkle random_blink(random_color);
+DodecaTwinkle blue_blink(blue_color);
+DodecaTwinkle white_blink(white_color);
 
 Preferences persistent_state;
 

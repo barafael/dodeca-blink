@@ -1,9 +1,7 @@
 #include "dodecahedron.hpp"
 #include "dodeca_path_bfs.hpp"
 
-#include <iostream>
-
-#include <unity.h>
+#include "test_native.hpp"
 
 namespace Test_NativeDodecahedron {
 

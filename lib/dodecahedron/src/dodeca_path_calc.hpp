@@ -1,5 +1,4 @@
-#ifndef DODECA_PATH_CALC_HPP
-#define DODECA_PATH_CALC_HPP
+#pragma once
 
 #include <cstddef>
 
@@ -44,5 +43,3 @@ class Path {
 class PathCalculator {
     virtual Path get_path(size_t from_node_index, size_t to_node_index) = 0;
 };
-
-#endif// DODECA_PATH_CALC_HPP

@@ -1,5 +1,4 @@
-#ifndef DODECAHEDRON_HPP
-#define DODECAHEDRON_HPP
+#pragma once
 
 #include "dodeca_graph.hpp"
 
@@ -20,5 +19,3 @@ class Dodecahedron {
     Node nodes[NUM_NODES];
     Edge edges[NUM_EDGES];
 };
-
-#endif// DODECAHEDRON_HPP

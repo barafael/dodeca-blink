@@ -1,5 +1,4 @@
-#ifndef DODECA_PATH_BFS_HPP
-#define DODECA_PATH_BFS_HPP
+#pragma once
 
 #include <cstddef>
 #include <cstdint>
@@ -63,5 +62,3 @@ class DodecaPathBFS: public PathCalculator {
     private:
       Dodecahedron *dod;
 };
-
-#endif// DODECA_PATH_BFS_HPP

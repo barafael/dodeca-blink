@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cstddef>
 #include <cstdint>
 
@@ -60,6 +62,7 @@ LampState next_state(LampState current) {
             return LampState::FADE_PALETTE_STATE;
             break;
     }
+    return LampState::FADE_PALETTE_STATE;
 }
 
 LampState previous_state(LampState current) {
@@ -83,4 +86,5 @@ LampState previous_state(LampState current) {
             return LampState::BLUE_BLINK_STATE;
             break;
     }
+    return LampState::FADE_PALETTE_STATE;
 }

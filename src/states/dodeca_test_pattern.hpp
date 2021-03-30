@@ -61,6 +61,14 @@ class DodecaTestPattern: public DodecaState {
         coordinates[14] = {5, 4 * LEDS_PER_EDGE};
     }
 
+    bool do_thing(uint8_t id) override {
+        return false;
+    }
+
+    bool do_thing(uint8_t id, uint8_t* args, size_t count) override {
+        return false;
+    }
+
     void advance() override {
         // Reset old LEDs
         for (size_t i = 0; i < LEDS_PER_EDGE; i++) {

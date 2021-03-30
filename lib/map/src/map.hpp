@@ -1,5 +1,4 @@
-#ifndef MAP_HPP
-#define MAP_HPP
+#pragma once
 
 #include <cstddef>
 
@@ -54,5 +53,3 @@ class Map {
     K keys[SIZE];
     V values[SIZE];
 };
-
-#endif// MAP_HPP
