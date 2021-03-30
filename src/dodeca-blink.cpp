@@ -19,8 +19,8 @@
 #include "dodecahedron.hpp"
 #include "led_data.hpp"
 #include "command.hpp"
-#include "ColorProviders/RandomColorProvider.hpp"
-#include "ColorProviders/SolidColorProvider.hpp"
+#include "ColorProviders/random_color_provider.hpp"
+#include "ColorProviders/solid_color_provider.hpp"
 
 #ifdef ENABLE_BLUETOOTH
 BluetoothSerial SerialBT;

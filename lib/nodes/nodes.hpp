@@ -3,5 +3,5 @@
 #include <iostream>
 #include <unity.h>
 
-#include "Consumer.hpp"
-#include "Producer.hpp"
+#include "consumer.hpp"
+#include "producer.hpp"

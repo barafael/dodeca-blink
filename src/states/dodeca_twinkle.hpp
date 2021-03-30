@@ -10,7 +10,7 @@
 #include "dodeca_twinkle.hpp"
 #include "state.hpp"
 #include "command.hpp"
-#include "ColorProviders/TwinkleState.hpp"
+#include "ColorProviders/twinkle_state.hpp"
 
 constexpr size_t NUM_RANDOM_BLINK_STATES = 8;
 
