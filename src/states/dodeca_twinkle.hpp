@@ -1,5 +1,4 @@
-#ifndef DODECA_RANDOM_BLINK_HPP
-#define DODECA_RANDOM_BLINK_HPP
+#pragma once
 
 #include <FastLED.h>
 
@@ -17,7 +16,7 @@ constexpr size_t NUM_RANDOM_BLINK_STATES = 8;
 
 class DodecaTwinkle: public DodecaState {
   public:
-    DodecaTwinkle(Producer<CHSV>& color_producer): color_producer(color_producer) {
+    DodecaTwinkle(String name, Producer<CHSV>& color_producer): DodecaState(name), color_producer(color_producer) {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < NUM_RANDOM_BLINK_STATES; j++) {
                 states[i][j].randomize(color_producer);
@@ -29,7 +28,8 @@ class DodecaTwinkle: public DodecaState {
         switch ((Command)id)
         {
             case Command::ACTION_A:
-                return false;
+                blur = !blur;
+                return true;
                 break;
             case Command::ACTION_B:
                 return false;
@@ -53,11 +53,21 @@ class DodecaTwinkle: public DodecaState {
                 states[i][j].advance(led_array[i], color_producer);
             }
         }
+
+        if (blur) {
+            uint8_t blurAmount = dim8_raw(beatsin8(3, 15, LEDS_PER_STRIP));
+
+            blur1d( led_array[0], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[1], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[2], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[3], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[4], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[5], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+        }
     }
 
   private:
     Producer<CHSV> &color_producer;
     TwinkleState<LEDS_PER_STRIP> states[STRIP_COUNT][NUM_RANDOM_BLINK_STATES];
+    bool blur = false;
 };
-
-#endif// DODECA_RANDOM_BLINK_HPP

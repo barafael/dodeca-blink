@@ -1,5 +1,4 @@
-#ifndef DODECA_COLOR_SPARKLE_HPP
-#define DODECA_COLOR_SPARKLE_HPP
+#pragma once
 
 #include "FastLED.h"
 #include "constants.hpp"
@@ -43,14 +42,15 @@ CRGBPalette16 target_palette(orangepink_gp);
 
 class DodecaColorSparkle: public DodecaState {
   public:
-    DodecaColorSparkle() {
+    DodecaColorSparkle(String name): DodecaState(name) {
         for (size_t i = 0; i < LEDS_PER_STRIP; i++) {
             color_index[i] = random8();
         }
     }
 
     bool do_thing(uint8_t id) override {
-        return false;
+        blur = !blur;
+        return true;
     }
 
     bool do_thing(uint8_t id, uint8_t* args, size_t count) override {
@@ -90,11 +90,21 @@ class DodecaColorSparkle: public DodecaState {
                 color_index[i]++;
             }
         }
+
+        if (blur) {
+            uint8_t blurAmount = dim8_raw(beatsin8(3, 15, LEDS_PER_STRIP));
+
+            blur1d( led_array[0], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[1], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[2], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[3], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[4], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[5], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+        }
     }
 
   private:
     uint8_t color_index[LEDS_PER_STRIP];
     uint8_t which_palette = 0;
+    bool blur = false;
 };
-
-#endif// DODECA_COLOR_SPARKLE_HPP

@@ -3,9 +3,9 @@
 
 #include "dodeca_state.hpp"
 
-class BlinkStates {
+class BlinkStateMachine {
     public:
-        BlinkStates(DodecaState* initial) {
+        BlinkStateMachine(DodecaState* initial) {
             if (initial != nullptr) {
                 states.push_back(initial);
             }
@@ -49,6 +49,13 @@ class BlinkStates {
                 return false;
             }
         }
+
+        size_t num_states() {
+            return states.size();
+        }
+
+        std::vector<DodecaState*>::iterator begin() { return states.begin(); }
+        std::vector<DodecaState*>::iterator end()   { return states.end(); }
 
     private:
         size_t active_index = 0;

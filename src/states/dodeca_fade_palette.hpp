@@ -1,5 +1,4 @@
-#ifndef DODECA_FADE_PALETTE_HPP
-#define DODECA_FADE_PALETTE_HPP
+#pragma once
 
 #include "FastLED.h"
 #include "constants.hpp"
@@ -19,7 +18,7 @@ DEFINE_GRADIENT_PALETTE (color_palette) {
 
 class DodecaFadePalette: public DodecaState {
   public:
-    DodecaFadePalette() = default;
+    DodecaFadePalette(String name): DodecaState(name) {}
 
     bool do_thing(uint8_t id) override {
         return false;
@@ -39,5 +38,3 @@ class DodecaFadePalette: public DodecaState {
         uint8_t paletteIndex = 0;
         CRGBPalette16 palette = color_palette;
 };
-
-#endif// DODECA_FADE_PALETTE_HPP

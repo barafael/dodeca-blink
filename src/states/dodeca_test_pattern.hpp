@@ -1,5 +1,4 @@
-#ifndef DODECA_TEST_PATTERN_HPP
-#define DODECA_TEST_PATTERN_HPP
+#pragma once
 
 #include "Arduino.h"
 #include "FastLED.h"
@@ -23,7 +22,7 @@ class IndexPair {
 
 class DodecaTestPattern: public DodecaState {
   public:
-    explicit DodecaTestPattern(const size_t leds_per_edge): LEDS_PER_EDGE(leds_per_edge) {
+    explicit DodecaTestPattern(String name, const size_t leds_per_edge): DodecaState(name), LEDS_PER_EDGE(leds_per_edge) {
         coordinates[0]  = {0, 0 * LEDS_PER_EDGE};
         coordinates[5]  = {0, 1 * LEDS_PER_EDGE};
         coordinates[19] = {0, 2 * LEDS_PER_EDGE};
@@ -113,5 +112,3 @@ class DodecaTestPattern: public DodecaState {
     size_t call_counter = 0;
     const size_t SKIP_COUNTER = 100;
 };
-
-#endif// DODECA_TEST_PATTERN_HPP
