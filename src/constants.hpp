@@ -13,6 +13,7 @@ constexpr size_t LEDS_PER_EDGE = 10;
 
 constexpr size_t INITIAL_BRIGHTNESS = 25;
 constexpr size_t BRIGHTNESS_STEP = 10;
+constexpr size_t BRIGHTNESS_TINY_STEP = 2;
 
 constexpr size_t FADE_INTERVAL_MS = 20;
 constexpr size_t FADE_STEP = 1;

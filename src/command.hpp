@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 
-enum class Command : uint32_t
+enum class Command : uint8_t
 {
     NONE = 0,
 
@@ -17,9 +17,9 @@ enum class Command : uint32_t
     ACTION_B = 'b',
     ACTION_C = 'c',
 
-    GET_STATE_LIST = 'L',
+    GET_STATE_LIST = 'l',
 };
 
 bool is_command(int val) {
-    return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c' || val == 'n' || val == 'p' || val == 'L';
+    return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c' || val == 'n' || val == 'p' || val == 'l';
 }

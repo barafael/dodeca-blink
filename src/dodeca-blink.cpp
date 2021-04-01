@@ -38,11 +38,11 @@ PaletteColorProvider palette_color(es_rivendell_01_gp);
 
 DodecaFadePalette fading("Fading");
 DodecaTestPattern test_pattern("Test Pattern", LEDS_PER_EDGE);
-DodecaColorSparkle sparkling("sparkling");
-DodecaTwinkle random_blink("random blink", random_color);
-DodecaTwinkle palette_blink("palette blink", palette_color);
-DodecaTwinkle blue_blink("blue blink", blue_color);
-DodecaTwinkle white_blink("white blink", white_color);
+DodecaColorSparkle sparkling("Sparkling");
+DodecaTwinkle random_blink("Random blink", random_color);
+DodecaTwinkle palette_blink("Palette blink", palette_color);
+DodecaTwinkle blue_blink("Blue blink", blue_color);
+DodecaTwinkle white_blink("White blink", white_color);
 
 Preferences persistent_state;
 
@@ -108,21 +108,29 @@ void setup() {
 }
 
 void loop() {
+    uint8_t val = 0;
     #ifdef ENABLE_BLUETOOTH
     if (SerialBT.available()) {
-        uint32_t val = SerialBT.read();
+        val = SerialBT.read();
         if (is_command(val)) {
             command = (Command)val;
         }
     }
     #endif // ENABLE_BLUETOOTH
 
+    if (val >= 'A' && val <= 'Z') {
+        size_t index = val - 65;
+        Serial.println(index);
+        states.try_set_index(index);
+        FastLED.clear();
+    }
+
     switch (command) {
         case Command::NONE:
         break;
         case Command::INCREASE_BRIGHTNESS: {
             if (settings.get_brightness() < BRIGHTNESS_STEP) {
-                settings.set_brightness(settings.get_brightness() + 5);
+                settings.set_brightness(settings.get_brightness() + BRIGHTNESS_TINY_STEP);
                 settings.serialize();
                 #ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
@@ -143,15 +151,21 @@ void loop() {
         }
         break;
         case Command::DECREASE_BRIGHTNESS: {
-            if (settings.get_brightness() > BRIGHTNESS_STEP) {
-                settings.set_brightness(settings.get_brightness() - BRIGHTNESS_STEP);
+            if (settings.get_brightness() <= BRIGHTNESS_STEP) {
+                uint8_t brightness = settings.get_brightness();
+                if (brightness > BRIGHTNESS_TINY_STEP) {
+                    brightness = 0;
+                } else {
+                    brightness -= BRIGHTNESS_TINY_STEP;
+                }
+                settings.set_brightness(brightness);
                 settings.serialize();
                 #ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
                 SerialBT.println(settings.get_brightness());
                 #endif
-            } else if (settings.get_brightness() <= BRIGHTNESS_STEP) {
-                settings.set_brightness(settings.get_brightness() - 5);
+            } else {
+                settings.set_brightness(settings.get_brightness() - BRIGHTNESS_STEP);
                 settings.serialize();
                 #ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
@@ -192,12 +206,16 @@ void loop() {
             states.get_active_state()->do_thing((uint8_t)Command::ACTION_C);
         break;
         case Command::GET_STATE_LIST:
-            SerialBT.println(states.num_states());
+            SerialBT.print("States: ");
             for (DodecaState* state: states) {
-                SerialBT.println(*state->get_name());
+                SerialBT.print(*state->get_name());
+                SerialBT.print("; ");
             }
+            SerialBT.println();
         break;
     }
+
+    // Reset command, which has been applied
     command = Command::NONE;
 
     EVERY_N_MILLISECONDS(20) {
