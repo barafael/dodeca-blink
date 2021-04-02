@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstddef>
 #include <cstdint>
 
 enum class Command : uint8_t
@@ -20,6 +19,6 @@ enum class Command : uint8_t
     GET_STATE_LIST = 'l',
 };
 
-bool is_command(int val) {
+bool is_command(uint8_t val) {
     return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c' || val == 'n' || val == 'p' || val == 'l';
 }

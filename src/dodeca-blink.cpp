@@ -46,9 +46,9 @@ DodecaTwinkle white_blink("White blink", white_color);
 
 Preferences persistent_state;
 
-Command command = Command::NONE;
-
 LampSettings settings(persistent_state);
+
+Command command = Command::NONE;
 
 uint8_t actual_brightness;
 
@@ -104,7 +104,6 @@ void setup() {
     FastLED.setBrightness(settings.get_brightness());
 
     //FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
-
 }
 
 void loop() {
@@ -121,7 +120,11 @@ void loop() {
     if (val >= 'A' && val <= 'Z') {
         size_t index = val - 65;
         Serial.println(index);
-        states.try_set_index(index);
+        if (states.try_set_index(index)) {
+            SerialBT.println("Success");
+        } else {
+            SerialBT.println("Fail");
+        }
         FastLED.clear();
     }
 
