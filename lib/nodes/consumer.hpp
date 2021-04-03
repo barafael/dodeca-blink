@@ -4,7 +4,7 @@
 
 template<typename T>
 class Consumer {
-  public:
+public:
     virtual void write(T value) = 0;
 
     virtual ~Consumer() = default;

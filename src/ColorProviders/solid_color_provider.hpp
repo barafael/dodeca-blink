@@ -4,9 +4,9 @@
 
 #include <FastLED.h>
 
-class SolidColorProvider: public Producer<CHSV> {
-  public:
-    explicit SolidColorProvider(CHSV color): color(color) {
+class SolidColorProvider : public Producer<CHSV> {
+public:
+    explicit SolidColorProvider(CHSV color) : color(color) {
     }
 
     void set_color(CHSV color) {
@@ -21,6 +21,6 @@ class SolidColorProvider: public Producer<CHSV> {
         return color;
     }
 
-  private:
+private:
     CHSV color;
 };

@@ -2,9 +2,9 @@
 
 #include <cstddef>
 
-enum class TraverseType: size_t {
-    TO      = 0,
-    FROM    = 1,
+enum class TraverseType : size_t {
+    TO = 0,
+    FROM = 1,
     SPECIAL = 2,
 };
 

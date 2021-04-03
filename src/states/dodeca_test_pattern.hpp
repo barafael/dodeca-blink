@@ -11,9 +11,10 @@
 #include <cstddef>
 
 class IndexPair {
-  public:
+public:
     IndexPair() = default;
-    IndexPair(size_t strip, size_t index): strip(strip), index(index) { }
+
+    IndexPair(size_t strip, size_t index) : strip(strip), index(index) {}
 
     size_t strip = 0;
     size_t index = 0;
@@ -69,7 +70,7 @@ class DodecaTestPattern: public DodecaState {
         }
     }
 
-    bool do_thing(uint8_t id, uint8_t* args, size_t count) override {
+    bool do_thing(uint8_t id, uint8_t *args, size_t count) override {
         return false;
     }
 
@@ -91,10 +92,10 @@ class DodecaTestPattern: public DodecaState {
         previous = current;
 
         current_edge_index = (current_edge_index + 1) % NUM_EDGES;
-        current            = coordinates[current_edge_index];
+        current = coordinates[current_edge_index];
     }
 
-  private:
+private:
     // Which edge of the dodecahedron? See .graphml file for enumeration
     size_t current_edge_index = 0;
 

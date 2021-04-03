@@ -2,11 +2,10 @@
 
 #include <cstdint>
 
-enum class Command : uint8_t
-{
+enum class Command : uint8_t {
     NONE = 0,
 
-    NEXT_STATE     = 'n',
+    NEXT_STATE = 'n',
     PREVIOUS_STATE = 'p',
 
     INCREASE_BRIGHTNESS = 'i',

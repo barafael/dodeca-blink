@@ -4,10 +4,12 @@
 
 #define ENABLE_BLUETOOTH
 #ifdef ENABLE_BLUETOOTH
-    #include <BluetoothSerial.h>
-    #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-        #error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
-    #endif
+
+#include <BluetoothSerial.h>
+
+#if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
+#error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
+#endif
 #endif
 
 #include "states/dodeca_color_sparkle.hpp"
@@ -63,17 +65,17 @@ void setup() {
 
     UpdateStatus update_status = attempt_update();
     switch (update_status) {
-    case UpdateStatus::NO_CARD:
-    case UpdateStatus::FILE_ERROR:
-        Serial.println("Continuing without update.");
-        break;
-    case UpdateStatus::INSUFFICIENT_SPACE:
-    case UpdateStatus::UPDATE_ERROR:
-        Serial.println("Error occurred during update. Continuing, here be dragons.");
-        break;
-    case UpdateStatus::UPDATE_OK:
-        Serial.println("Update OK!");
-        break;
+        case UpdateStatus::NO_CARD:
+        case UpdateStatus::FILE_ERROR:
+            Serial.println("Continuing without update.");
+            break;
+        case UpdateStatus::INSUFFICIENT_SPACE:
+        case UpdateStatus::UPDATE_ERROR:
+            Serial.println("Error occurred during update. Continuing, here be dragons.");
+            break;
+        case UpdateStatus::UPDATE_OK:
+            Serial.println("Update OK!");
+            break;
     }
 
     // TODO move those to lamp settings class without breaking persistence
@@ -88,18 +90,18 @@ void setup() {
     char ssid2[15];
 
     uint64_t chipid = ESP.getEfuseMac();
-    uint16_t chip = (uint16_t)(chipid >> 32);
+    uint16_t chip = (uint16_t) (chipid >> 32);
 
     // TODO use chip id for id string?
     snprintf(ssid1, 15, "%04X", chip);
-    snprintf(ssid2, 15, "%08X", (uint32_t)chipid);
+    snprintf(ssid2, 15, "%08X", (uint32_t) chipid);
 
-    #ifdef ENABLE_BLUETOOTH
+#ifdef ENABLE_BLUETOOTH
     String id = "Dodeca Lamp BlueTooth control";
     SerialBT.begin(id);
-    #endif
+#endif
 
-    random16_add_entropy((uint16_t)random(19885678));
+    random16_add_entropy((uint16_t) random(19885678));
 
     states.add_state(&test_pattern);
     states.add_state(&sparkling);
@@ -124,14 +126,14 @@ void setup() {
 
 void loop() {
     uint8_t val = 0;
-    #ifdef ENABLE_BLUETOOTH
+#ifdef ENABLE_BLUETOOTH
     if (SerialBT.available()) {
-        val = (uint8_t)SerialBT.read();
+        val = (uint8_t) SerialBT.read();
         if (is_command(val)) {
-            command = (Command)val;
+            command = (Command) val;
         }
     }
-    #endif // ENABLE_BLUETOOTH
+#endif // ENABLE_BLUETOOTH
 
     if (val >= 'A' && val <= 'Z') {
         size_t index = val - 65;
@@ -146,29 +148,29 @@ void loop() {
 
     switch (command) {
         case Command::NONE:
-        break;
+            break;
         case Command::INCREASE_BRIGHTNESS: {
             if (settings.get_brightness() < BRIGHTNESS_STEP) {
                 settings.set_brightness(settings.get_brightness() + BRIGHTNESS_TINY_STEP);
                 settings.serialize();
-                #ifdef ENABLE_BLUETOOTH
+#ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
                 SerialBT.println(settings.get_brightness());
-                #endif
+#endif
             } else if (settings.get_brightness() + BRIGHTNESS_STEP < 256) {
                 settings.set_brightness(settings.get_brightness() + BRIGHTNESS_STEP);
                 settings.serialize();
-                #ifdef ENABLE_BLUETOOTH
+#ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
                 SerialBT.println(settings.get_brightness());
-                #endif
+#endif
             } else {
-                #ifdef ENABLE_BLUETOOTH
+#ifdef ENABLE_BLUETOOTH
                 SerialBT.println("max brightness");
-                #endif
+#endif
             }
         }
-        break;
+            break;
         case Command::DECREASE_BRIGHTNESS: {
             if (settings.get_brightness() <= BRIGHTNESS_STEP) {
                 uint8_t brightness = settings.get_brightness();
@@ -179,59 +181,59 @@ void loop() {
                 }
                 settings.set_brightness(brightness);
                 settings.serialize();
-                #ifdef ENABLE_BLUETOOTH
+#ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
                 SerialBT.println(settings.get_brightness());
-                #endif
+#endif
             } else {
                 settings.set_brightness(settings.get_brightness() - BRIGHTNESS_STEP);
                 settings.serialize();
-                #ifdef ENABLE_BLUETOOTH
+#ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
                 SerialBT.println(settings.get_brightness());
-                #endif
+#endif
             }
         }
-        break;
+            break;
         case Command::NEXT_STATE: {
             states.go_to_next();
             settings.set_index(states.get_active_index());
             settings.serialize();
             FastLED.clear();
-            #ifdef ENABLE_BLUETOOTH
+#ifdef ENABLE_BLUETOOTH
             SerialBT.print("State: ");
             SerialBT.println(*states.get_active_state()->get_name());
-            #endif
+#endif
         }
-        break;
+            break;
         case Command::PREVIOUS_STATE: {
             states.go_to_previous();
             settings.set_index(states.get_active_index());
             settings.serialize();
             FastLED.clear();
-            #ifdef ENABLE_BLUETOOTH
+#ifdef ENABLE_BLUETOOTH
             SerialBT.print("State: ");
             SerialBT.println(*states.get_active_state()->get_name());
-            #endif
+#endif
         }
-        break;
+            break;
         case Command::ACTION_A:
-            states.get_active_state()->do_thing((uint8_t)Command::ACTION_A);
-        break;
+            states.get_active_state()->do_thing((uint8_t) Command::ACTION_A);
+            break;
         case Command::ACTION_B:
-            states.get_active_state()->do_thing((uint8_t)Command::ACTION_B);
-        break;
+            states.get_active_state()->do_thing((uint8_t) Command::ACTION_B);
+            break;
         case Command::ACTION_C:
-            states.get_active_state()->do_thing((uint8_t)Command::ACTION_C);
-        break;
+            states.get_active_state()->do_thing((uint8_t) Command::ACTION_C);
+            break;
         case Command::GET_STATE_LIST:
             SerialBT.print("States: ");
-            for (DodecaState* state: states) {
+            for (DodecaState *state: states) {
                 SerialBT.print(*state->get_name());
                 SerialBT.print("; ");
             }
             SerialBT.println();
-        break;
+            break;
     }
 
     // Reset command, which has been applied

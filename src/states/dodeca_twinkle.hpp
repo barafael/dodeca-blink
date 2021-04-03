@@ -54,12 +54,12 @@ class DodecaTwinkle: public DodecaState {
         if (blur) {
             uint8_t blurAmount = dim8_raw(beatsin8(3, 15, LEDS_PER_STRIP));
 
-            blur1d( led_array[0], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
-            blur1d( led_array[1], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
-            blur1d( led_array[2], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
-            blur1d( led_array[3], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
-            blur1d( led_array[4], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
-            blur1d( led_array[5], LEDS_PER_STRIP, blurAmount);                        // Apply some blurring to whatever's already on the strip, which will eventually go black.
+            blur1d( led_array[0], LEDS_PER_STRIP, blurAmount);
+            blur1d( led_array[1], LEDS_PER_STRIP, blurAmount);
+            blur1d( led_array[2], LEDS_PER_STRIP, blurAmount);
+            blur1d( led_array[3], LEDS_PER_STRIP, blurAmount);
+            blur1d( led_array[4], LEDS_PER_STRIP, blurAmount);
+            blur1d( led_array[5], LEDS_PER_STRIP, blurAmount);
         }
     }
 

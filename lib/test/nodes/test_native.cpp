@@ -2,25 +2,25 @@
 
 namespace Test_NativeNodes {
 
-void test_producer() {
-    class Keyboard: public Producer<char> {
+    void test_producer() {
+        class Keyboard : public Producer<char> {
         public:
-        char read() {
-            static char c = 'a';
-            return c++;
-        }
-    };
+            char read() {
+                static char c = 'a';
+                return c++;
+            }
+        };
 
-    Keyboard k;
+        Keyboard k;
 
-    TEST_ASSERT(k.read() == 'a');
-    TEST_ASSERT(k.read() == 'b');
-    TEST_ASSERT(k.read() == 'c');
-}
+        TEST_ASSERT(k.read() == 'a');
+        TEST_ASSERT(k.read() == 'b');
+        TEST_ASSERT(k.read() == 'c');
+    }
 
-void test_all() {
-    UNITY_BEGIN();
-    RUN_TEST(test_producer);
-    UNITY_END();
-}
+    void test_all() {
+        UNITY_BEGIN();
+        RUN_TEST(test_producer);
+        UNITY_END();
+    }
 }// namespace Test_NativeNodes

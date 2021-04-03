@@ -4,60 +4,61 @@
 #include "dodeca_state.hpp"
 
 class BlinkStateMachine {
-    public:
-        BlinkStateMachine(DodecaState* initial) {
-            if (initial != nullptr) {
-                states.push_back(initial);
-            }
+public:
+    BlinkStateMachine(DodecaState *initial) {
+        if (initial != nullptr) {
+            states.push_back(initial);
         }
+    }
 
-        DodecaState* get_active_state() {
-            return states[active_index];
+    DodecaState *get_active_state() {
+        return states[active_index];
+    }
+
+    size_t get_active_index() {
+        return active_index;
+    }
+
+    void go_to_next() {
+        if (active_index == states.size() - 1) {
+            active_index = 0;
+        } else {
+            active_index += 1;
         }
+    }
 
-        size_t get_active_index() {
-            return active_index;
+    void go_to_previous() {
+        if (active_index == 0) {
+            active_index = states.size() - 1;
+        } else {
+            active_index -= 1;
         }
+    }
 
-        void go_to_next() {
-            if (active_index == states.size() - 1) {
-                active_index = 0;
-            } else {
-                active_index += 1;
-            }
+    void add_state(DodecaState *state) {
+        if (state != nullptr) {
+            states.push_back(state);
         }
+    }
 
-        void go_to_previous() {
-            if (active_index == 0) {
-                active_index = states.size() - 1;
-            } else {
-                active_index -= 1;
-            }
+    bool try_set_index(size_t index) {
+        if (index < states.size()) {
+            active_index = index;
+            return true;
+        } else {
+            return false;
         }
+    }
 
-        void add_state(DodecaState* state) {
-            if (state != nullptr) {
-                states.push_back(state);
-            }
-        }
+    size_t num_states() {
+        return states.size();
+    }
 
-        bool try_set_index(size_t index) {
-            if (index < states.size()) {
-                active_index = index;
-                return true;
-            } else {
-                return false;
-            }
-        }
+    std::vector<DodecaState *>::iterator begin() { return states.begin(); }
 
-        size_t num_states() {
-            return states.size();
-        }
+    std::vector<DodecaState *>::iterator end() { return states.end(); }
 
-        std::vector<DodecaState*>::iterator begin() { return states.begin(); }
-        std::vector<DodecaState*>::iterator end()   { return states.end(); }
-
-    private:
-        size_t active_index = 0;
-        std::vector<DodecaState*> states;
+private:
+    size_t active_index = 0;
+    std::vector<DodecaState *> states;
 };

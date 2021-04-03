@@ -11,7 +11,7 @@ constexpr size_t NUM_EDGES = 30;
 using Neighbours = std::array<size_t, 3>;
 
 class Dodecahedron {
-  public:
+public:
     Dodecahedron();
 
     Neighbours get_neighbouring_nodes_of(size_t node_index);

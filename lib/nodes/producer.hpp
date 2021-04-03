@@ -2,7 +2,7 @@
 
 template<typename T>
 class Producer {
-  public:
+public:
     virtual T read() = 0;
 
     virtual ~Producer() = default;

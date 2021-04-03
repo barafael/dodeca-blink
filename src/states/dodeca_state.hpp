@@ -1,19 +1,21 @@
 #pragma once
 
 class DodecaState {
-    public:
-        explicit DodecaState(String name): name(name) {}
+public:
+    explicit DodecaState(String name) : name(name) {}
 
-        virtual void advance() = 0;
-        virtual bool do_thing(uint8_t id) = 0;
-        virtual bool do_thing(uint8_t id, uint8_t* args, size_t count) = 0;
+    virtual void advance() = 0;
 
-        String* get_name() {
-            return &name;
-        }
+    virtual bool do_thing(uint8_t id) = 0;
 
-        virtual ~DodecaState() = default;
+    virtual bool do_thing(uint8_t id, uint8_t *args, size_t count) = 0;
 
-    private:
-        String name;
+    String *get_name() {
+        return &name;
+    }
+
+    virtual ~DodecaState() = default;
+
+private:
+    String name;
 };

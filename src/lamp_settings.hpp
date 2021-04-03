@@ -6,8 +6,8 @@
 #include <constants.hpp>
 
 class LampSettings {
-  public:
-    LampSettings(Preferences& persistent_state): persistent_state(persistent_state) {
+public:
+    LampSettings(Preferences &persistent_state) : persistent_state(persistent_state) {
     }
 
     uint8_t get_brightness() {
@@ -31,10 +31,10 @@ class LampSettings {
         persistent_state.putUChar("brightness", brightness);
     }
 
-    private:
+private:
 
-        size_t index = 0;
-        uint8_t brightness = INITIAL_BRIGHTNESS;
+    size_t index = 0;
+    uint8_t brightness = INITIAL_BRIGHTNESS;
 
-        Preferences& persistent_state;
+    Preferences &persistent_state;
 };

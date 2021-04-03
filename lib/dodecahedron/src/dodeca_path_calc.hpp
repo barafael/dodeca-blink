@@ -7,7 +7,7 @@
 constexpr size_t MAX_PATH_LEN = 5;
 
 class Path {
-  public:
+public:
     bool contains(size_t index) {
         for (size_t i = 0; i < num_elems; i++) {
             if (nodes[i] == index) {
@@ -27,16 +27,16 @@ class Path {
     }
 
     size_t *get_data(size_t *num_elems) {
-      *num_elems = this->num_elems;
-      return &nodes[0];
+        *num_elems = this->num_elems;
+        return &nodes[0];
     }
 
     void reset() {
         num_elems = 0;
     }
 
-  private:
-    size_t num_elems           = 0;
+private:
+    size_t num_elems = 0;
     size_t nodes[MAX_PATH_LEN] = {};
 };
 

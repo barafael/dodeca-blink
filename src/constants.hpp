@@ -9,7 +9,7 @@
 constexpr size_t TOTAL_MILLIAMPS = 5000;
 
 constexpr size_t LEDS_PER_STRIP = 60;
-constexpr size_t STRIP_COUNT    = 6;
+constexpr size_t STRIP_COUNT = 6;
 
 constexpr size_t LEDS_PER_EDGE = 12;
 
