@@ -60,7 +60,7 @@ void setup() {
 
     Serial.begin(115200);
 
-    // TODO move those to lamp settings without breaking persistence
+    // TODO move those to lamp settings class without breaking persistence
     persistent_state.begin("settings", false);
 
     settings.set_index(persistent_state.getUInt("state-index", 0));
@@ -156,7 +156,7 @@ void loop() {
         case Command::DECREASE_BRIGHTNESS: {
             if (settings.get_brightness() <= BRIGHTNESS_STEP) {
                 uint8_t brightness = settings.get_brightness();
-                if (brightness > BRIGHTNESS_TINY_STEP) {
+                if (BRIGHTNESS_TINY_STEP > brightness) {
                     brightness = 0;
                 } else {
                     brightness -= BRIGHTNESS_TINY_STEP;
