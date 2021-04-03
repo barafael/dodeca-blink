@@ -16,6 +16,8 @@
 #include "states/dodeca_test_pattern.hpp"
 #include "states/blink_states.hpp"
 
+#include "firmware_update/updater.hpp"
+
 #include "constants.hpp"
 #include "pins.hpp"
 #include "dodecahedron.hpp"
@@ -59,6 +61,23 @@ void setup() {
     delay(1000);
 
     Serial.begin(115200);
+
+    UpdateStatus update_status = attempt_update();
+    switch (update_status) {
+    case UpdateStatus::NO_CARD:
+    case UpdateStatus::FILE_ERROR:
+        Serial.println("Continuing without update.");
+        break;
+    case UpdateStatus::INSUFFICIENT_SPACE:
+    case UpdateStatus::UPDATE_ERROR:
+        Serial.println("Error occurred during update. Continuing, here be dragons.");
+        break;
+    case UpdateStatus::UPDATE_OK:
+        Serial.println("Update OK!");
+        break;
+    default:
+        break;
+    }
 
     // TODO move those to lamp settings class without breaking persistence
     persistent_state.begin("settings", false);
