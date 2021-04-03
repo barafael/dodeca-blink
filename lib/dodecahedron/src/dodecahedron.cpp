@@ -1,6 +1,6 @@
 #include "dodecahedron.hpp"
 
-#include <cstdint>
+#include <cstddef>
 
 enum class TraverseType: size_t {
     TO      = 0,

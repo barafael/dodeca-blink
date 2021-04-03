@@ -119,7 +119,7 @@ void setup() {
 
     FastLED.setBrightness(settings.get_brightness());
 
-    //FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
+    FastLED.setMaxPowerInVoltsAndMilliamps(5, TOTAL_MILLIAMPS);
 }
 
 void loop() {

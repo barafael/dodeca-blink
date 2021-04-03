@@ -107,6 +107,6 @@ class DodecaColorSparkle: public DodecaState {
 
   private:
     uint8_t color_index[LEDS_PER_STRIP];
-    uint8_t which_palette = 0;
+    size_t which_palette = 0;
     bool blur = false;
 };
