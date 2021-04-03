@@ -20,7 +20,6 @@
 
 #include "constants.hpp"
 #include "pins.hpp"
-#include "dodecahedron.hpp"
 #include "led_data.hpp"
 #include "command.hpp"
 #include "ColorProviders/random_color_provider.hpp"
@@ -75,8 +74,6 @@ void setup() {
     case UpdateStatus::UPDATE_OK:
         Serial.println("Update OK!");
         break;
-    default:
-        break;
     }
 
     // TODO move those to lamp settings class without breaking persistence
@@ -102,7 +99,7 @@ void setup() {
     SerialBT.begin(id);
     #endif
 
-    random16_add_entropy(random(19885678));
+    random16_add_entropy((uint16_t)random(19885678));
 
     states.add_state(&test_pattern);
     states.add_state(&sparkling);
@@ -129,7 +126,7 @@ void loop() {
     uint8_t val = 0;
     #ifdef ENABLE_BLUETOOTH
     if (SerialBT.available()) {
-        val = SerialBT.read();
+        val = (uint8_t)SerialBT.read();
         if (is_command(val)) {
             command = (Command)val;
         }

@@ -1,10 +1,12 @@
 #include "dodecahedron.hpp"
 
-#include <cstddef>
+#include <cstdint>
 
-constexpr size_t TO      = 0;
-constexpr size_t FROM    = 1;
-constexpr size_t SPECIAL = 2;
+enum class TraverseType: size_t {
+    TO      = 0,
+    FROM    = 1,
+    SPECIAL = 2,
+};
 
 Neighbours Dodecahedron::get_neighbouring_nodes_of(size_t node_index) {
     Neighbours n;

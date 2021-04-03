@@ -5,26 +5,26 @@
 namespace Test_NativeMap {
 
 void test_getset() {
-    Map<int, bool, 8> m;
-    m.set(0, true);
-    m.set(1, true);
-    m.set(2, true);
-    m.set(3, true);
-    m.set(4, false);
+    Map<int, char, 8> m;
+    m.set(0, 'a');
+    m.set(1, 'b');
+    m.set(2, 'c');
+    m.set(3, 'd');
+    m.set(4, 'e');
 
-    TEST_ASSERT(*m.get(0));
-    TEST_ASSERT(*m.get(1));
-    TEST_ASSERT(*m.get(2));
-    TEST_ASSERT(*m.get(3));
-    TEST_ASSERT(*m.get(4) == false);
+    TEST_ASSERT_EQUAL(*m.get(0), 'a');
+    TEST_ASSERT_EQUAL(*m.get(1), 'b');
+    TEST_ASSERT_EQUAL(*m.get(2), 'c');
+    TEST_ASSERT_EQUAL(*m.get(3), 'd');
+    TEST_ASSERT_EQUAL(*m.get(4), 'e');
     TEST_ASSERT(m.get(5) == nullptr);
 
-    m.set(0, false);
-    TEST_ASSERT(*m.get(0) == false);
+    m.set(0, 'z');
+    TEST_ASSERT_EQUAL(*m.get(0), 'z');
 
-    TEST_ASSERT(m.get_len() == 5);
+    TEST_ASSERT_EQUAL(m.get_len(), 5);
     m.reset();
-    TEST_ASSERT(m.get_len() == 0);
+    TEST_ASSERT_EQUAL(m.get_len(), 0);
 }
 
 void test_all() {

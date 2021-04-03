@@ -79,6 +79,8 @@ class DodecaColorSparkle: public DodecaState {
             case 3:
                 target_palette = yellowred_gp;
                 break;
+            default:
+                target_palette = orangepink_gp;
         }
 
         EVERY_N_SECONDS(5) {

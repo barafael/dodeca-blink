@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <cstdint>
 
-template<size_t MAX, size_t MIN = 0>
+template<uint8_t MAX, uint8_t MIN = 0>
 class TwinkleState: public Consumer<CHSV> {
   public:
     TwinkleState() = default;

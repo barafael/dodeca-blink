@@ -14,7 +14,7 @@ class PaletteColorProvider: public Producer<CHSV> {
     }
 
     CHSV read() override {
-        return rgb2hsv_approximate(ColorFromPalette(palette, random(0, 255)));
+        return rgb2hsv_approximate(ColorFromPalette(palette, (uint8_t)random(0, 255)));
     }
 
   private:

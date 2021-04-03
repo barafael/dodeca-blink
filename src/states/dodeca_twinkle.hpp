@@ -30,13 +30,10 @@ class DodecaTwinkle: public DodecaState {
             case Command::ACTION_A:
                 blur = !blur;
                 return true;
-                break;
             case Command::ACTION_B:
                 return false;
-                break;
             case Command::ACTION_C:
                 return false;
-                break;
 
             default:
                 return false;

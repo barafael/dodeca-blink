@@ -13,8 +13,7 @@
 class IndexPair {
   public:
     IndexPair() = default;
-    IndexPair(size_t strip, size_t index): strip(strip), index(index) {
-    }
+    IndexPair(size_t strip, size_t index): strip(strip), index(index) { }
 
     size_t strip = 0;
     size_t index = 0;
@@ -65,7 +64,6 @@ class DodecaTestPattern: public DodecaState {
             case 'a':
                 call_counter = SKIP_COUNTER;
                 return true;
-            break;
             default:
                 return false;
         }
@@ -106,8 +104,6 @@ class DodecaTestPattern: public DodecaState {
     IndexPair coordinates[NUM_EDGES] = {};
 
     const size_t LEDS_PER_EDGE;
-
-    Dodecahedron dod;
 
     size_t call_counter = 0;
     const size_t SKIP_COUNTER = 100;
