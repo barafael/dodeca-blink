@@ -21,7 +21,7 @@ public:
     }
 
     void advance(CRGB leds[], Producer<CHSV> &color_producer) {
-        if ((uint32_t) brightness + step_size > UINT8_MAX) {
+        if (static_cast<uint32_t>(brightness) + step_size > UINT8_MAX) {
             rising = false;
         }
 

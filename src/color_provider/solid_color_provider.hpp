@@ -1,20 +1,13 @@
 #pragma once
 
 #include "producer.hpp"
+#include "color_provider.hpp"
 
 #include <FastLED.h>
 
-class SolidColorProvider : public Producer<CHSV> {
+class SolidColorProvider : public ColorProvider {
 public:
     explicit SolidColorProvider(CHSV color) : color(color) {
-    }
-
-    void set_color(CHSV color) {
-        this->color = color;
-    }
-
-    CHSV get_color() {
-        return color;
     }
 
     CHSV read() override {

@@ -18,15 +18,7 @@ DEFINE_GRADIENT_PALETTE (color_palette) {
 
 class DodecaFadePalette : public DodecaState {
 public:
-    DodecaFadePalette(String name) : DodecaState(name) {}
-
-    bool do_thing(uint8_t id) override {
-        return false;
-    }
-
-    bool do_thing(uint8_t id, uint8_t *args, size_t count) override {
-        return false;
-    }
+    explicit DodecaFadePalette(String name) : DodecaState(name) {}
 
     void advance() override {
         for (size_t strip = 0; strip < STRIP_COUNT; strip++) {

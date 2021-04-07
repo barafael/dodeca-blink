@@ -1,6 +1,6 @@
 #include <FastLED.h>
 
-DEFINE_GRADIENT_PALETTE (sunset_palette) {
+DEFINE_GRADIENT_PALETTE(sunset_palette) {
         0, 50, 255, 0,
         200, 65, 0, 0,
         255, 70, 0, 0,

@@ -60,18 +60,14 @@ class DodecaTestPattern: public DodecaState {
         coordinates[14] = {5, 4 * LEDS_PER_EDGE};
     }
 
-    bool do_thing(uint8_t id) override {
+    bool do_thing(Command id) override {
         switch (id) {
-            case 'a':
+            case Command::ACTION_A:
                 call_counter = SKIP_COUNTER;
                 return true;
             default:
                 return false;
         }
-    }
-
-    bool do_thing(uint8_t id, uint8_t *args, size_t count) override {
-        return false;
     }
 
     void advance() override {

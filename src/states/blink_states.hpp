@@ -5,17 +5,17 @@
 
 class BlinkStateMachine {
 public:
-    BlinkStateMachine(DodecaState *initial) {
+    explicit BlinkStateMachine(DodecaState *initial) {
         if (initial != nullptr) {
             states.push_back(initial);
         }
     }
 
-    DodecaState *get_active_state() {
+    DodecaState *get_active_state() const {
         return states[active_index];
     }
 
-    size_t get_active_index() {
+    size_t get_active_index() const {
         return active_index;
     }
 

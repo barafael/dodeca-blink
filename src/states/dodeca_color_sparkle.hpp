@@ -4,6 +4,7 @@
 #include "constants.hpp"
 #include "led_data.hpp"
 #include "dodeca_state.hpp"
+#include "does_things.hpp"
 
 #include <cstddef>
 
@@ -42,18 +43,17 @@ CRGBPalette16 target_palette(orangepink_gp);
 
 class DodecaColorSparkle : public DodecaState {
 public:
-    DodecaColorSparkle(String name) : DodecaState(name) {
+    explicit DodecaColorSparkle(String name) : DodecaState(name) {
         for (size_t i = 0; i < LEDS_PER_STRIP; i++) {
             color_index[i] = random8();
         }
     }
 
-    bool do_thing(uint8_t id) override {
-        blur = !blur;
-        return true;
-    }
-
-    bool do_thing(uint8_t id, uint8_t *args, size_t count) override {
+    bool do_thing(Command id) override {
+        if (id == Command::ACTION_A) {
+            blur = !blur;
+            return true;
+        }
         return false;
     }
 
@@ -106,7 +106,7 @@ public:
     }
 
 private:
-    uint8_t color_index[LEDS_PER_STRIP];
+    uint8_t color_index[LEDS_PER_STRIP] = {};
     size_t which_palette = 0;
     bool blur = false;
 };

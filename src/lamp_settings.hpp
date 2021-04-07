@@ -7,14 +7,14 @@
 
 class LampSettings {
 public:
-    LampSettings(Preferences &persistent_state) : persistent_state(persistent_state) {
+    explicit LampSettings(Preferences &persistent_state) : persistent_state(persistent_state) {
     }
 
-    uint8_t get_brightness() {
+    uint8_t get_brightness() const {
         return brightness;
     }
 
-    size_t get_index() {
+    size_t get_index() const {
         return index;
     }
 

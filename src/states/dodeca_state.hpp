@@ -1,14 +1,12 @@
 #pragma once
 
-class DodecaState {
+#include "does_things.hpp"
+
+class DodecaState: public ThingDoer {
 public:
     explicit DodecaState(String name) : name(name) {}
 
     virtual void advance() = 0;
-
-    virtual bool do_thing(uint8_t id) = 0;
-
-    virtual bool do_thing(uint8_t id, uint8_t *args, size_t count) = 0;
 
     String *get_name() {
         return &name;

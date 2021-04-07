@@ -24,9 +24,9 @@
 #include "pins.hpp"
 #include "led_data.hpp"
 #include "command.hpp"
-#include "ColorProviders/random_color_provider.hpp"
-#include "ColorProviders/solid_color_provider.hpp"
-#include "ColorProviders/palette_color_provider.hpp"
+#include "color_provider/random_color_provider.hpp"
+#include "color_provider/solid_color_provider.hpp"
+#include "color_provider/palette_color_provider.hpp"
 #include "palettes.hpp"
 #include "lamp_settings.hpp"
 
@@ -37,7 +37,13 @@ BluetoothSerial SerialBT;
 RandomColorProvider random_color;
 SolidColorProvider blue_color(rgb2hsv_approximate(CRGB::Blue));
 SolidColorProvider white_color(rgb2hsv_approximate(CRGB::White));
-PaletteColorProvider palette_color(es_rivendell_01_gp);
+CRGBPalette16 palettes[] = {
+sunset_palette,
+es_emerald_dragon_08_gp,
+es_ocean_breeze_001_gp,
+es_rivendell_01_gp,
+};
+PaletteColorProvider palette_color(palettes, 4);
 
 DodecaFadePalette fading("Fading");
 DodecaTestPattern test_pattern("Test Pattern", LEDS_PER_EDGE);
@@ -90,18 +96,18 @@ void setup() {
     char ssid2[15];
 
     uint64_t chipid = ESP.getEfuseMac();
-    uint16_t chip = (uint16_t) (chipid >> 32);
+    auto chip = (uint16_t)(chipid >> 32);
 
     // TODO use chip id for id string?
     snprintf(ssid1, 15, "%04X", chip);
-    snprintf(ssid2, 15, "%08X", (uint32_t) chipid);
+    snprintf(ssid2, 15, "%08X", static_cast<uint32_t>(chipid));
 
 #ifdef ENABLE_BLUETOOTH
     String id = "Dodeca Lamp BlueTooth control";
     SerialBT.begin(id);
 #endif
 
-    random16_add_entropy((uint16_t) random(19885678));
+    random16_add_entropy(static_cast<uint16_t>(random(19885678)));
 
     states.add_state(&test_pattern);
     states.add_state(&sparkling);
@@ -218,13 +224,13 @@ void loop() {
         }
             break;
         case Command::ACTION_A:
-            states.get_active_state()->do_thing((uint8_t) Command::ACTION_A);
+            states.get_active_state()->do_thing(Command::ACTION_A);
             break;
         case Command::ACTION_B:
-            states.get_active_state()->do_thing((uint8_t) Command::ACTION_B);
+            states.get_active_state()->do_thing(Command::ACTION_B);
             break;
         case Command::ACTION_C:
-            states.get_active_state()->do_thing((uint8_t) Command::ACTION_C);
+            states.get_active_state()->do_thing(Command::ACTION_C);
             break;
         case Command::GET_STATE_LIST:
             SerialBT.print("States: ");

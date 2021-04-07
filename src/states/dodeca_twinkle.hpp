@@ -9,14 +9,15 @@
 #include "dodeca_twinkle.hpp"
 #include "dodeca_state.hpp"
 #include "command.hpp"
+#include "color_provider/color_provider.hpp"
 
-#include "ColorProviders/twinkle_state.hpp"
+#include "states/twinkle_state.hpp"
 
 constexpr size_t NUM_RANDOM_BLINK_STATES = 8;
 
 class DodecaTwinkle: public DodecaState {
   public:
-    DodecaTwinkle(String name, Producer<CHSV>& color_producer): DodecaState(name), color_producer(color_producer) {
+    DodecaTwinkle(String name, ColorProvider& color_producer): DodecaState(name), color_producer(color_producer) {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < NUM_RANDOM_BLINK_STATES; j++) {
                 states[i][j].randomize(color_producer);
@@ -24,24 +25,21 @@ class DodecaTwinkle: public DodecaState {
         }
     }
 
-    bool do_thing(uint8_t id) override {
-        switch ((Command)id)
+    bool do_thing(Command id) override {
+        switch (id)
         {
             case Command::ACTION_A:
                 blur = !blur;
                 return true;
             case Command::ACTION_B:
-                return false;
+                FastLED.clear();
+                return color_producer.do_thing(Command::ACTION_B);
             case Command::ACTION_C:
                 return false;
 
             default:
                 return false;
         }
-    }
-
-    bool do_thing(uint8_t id, uint8_t* args, size_t count) override {
-        return false;
     }
 
     void advance() override {
@@ -64,7 +62,7 @@ class DodecaTwinkle: public DodecaState {
     }
 
   private:
-    Producer<CHSV> &color_producer;
+    ColorProvider &color_producer;
     TwinkleState<LEDS_PER_STRIP> states[STRIP_COUNT][NUM_RANDOM_BLINK_STATES];
     bool blur = false;
 };
