@@ -16,8 +16,10 @@ enum class Command : uint8_t {
     ACTION_C = 'c',
 
     GET_STATE_LIST = 'l',
+
+    GET_FIRMWARE_REVISION = 'v',
 };
 
 bool is_command(uint8_t val) {
-    return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c' || val == 'n' || val == 'p' || val == 'l';
+    return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c' || val == 'n' || val == 'p' || val == 'l' || val == 'v';
 }

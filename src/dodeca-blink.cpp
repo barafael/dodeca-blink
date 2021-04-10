@@ -22,6 +22,7 @@
 
 #include "constants.hpp"
 #include "pins.hpp"
+#include "firmware_revision.hpp"
 #include "led_data.hpp"
 #include "command.hpp"
 #include "color_provider/random_color_provider.hpp"
@@ -241,6 +242,13 @@ void loop() {
             }
             SerialBT.println();
             break;
+        case Command::GET_FIRMWARE_REVISION:
+            SerialBT.print("Revision: ");
+            SerialBT.print(REVISION.major);
+            SerialBT.print(";");
+            SerialBT.print(REVISION.minor);
+            SerialBT.print(";");
+            SerialBT.println(REVISION.patch);
     }
 
     // Reset command, which has been applied
