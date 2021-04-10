@@ -1,8 +1,9 @@
 #pragma once
 
-#include "SD.h"
-#include "SPI.h"
+#include <pins.hpp>
 
+#include <SD.h>
+#include <SPI.h>
 #include <FS.h>
 #include <Update.h>
 
@@ -70,7 +71,7 @@ UpdateStatus update_from_fs(fs::FS &fs) {
 }
 
 UpdateStatus attempt_update() {
-    if (!SD.begin()) {
+    if (!SD.begin(SD_CS_PIN)) {
         Serial.println("Card Mount Failed.");
         return UpdateStatus::NO_CARD;
     }

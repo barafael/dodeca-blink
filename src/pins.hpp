@@ -17,3 +17,5 @@ constexpr size_t CS_PIN = 5;
 constexpr size_t SD_PIN = 32;
 constexpr size_t WS_PIN = 15;
 constexpr size_t MIC_SCK_PIN = 14;
+
+constexpr size_t SD_CS_PIN = 21;
