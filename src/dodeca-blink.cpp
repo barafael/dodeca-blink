@@ -81,6 +81,7 @@ void setup() {
             break;
         case UpdateStatus::UPDATE_OK:
             Serial.println("Update OK!");
+            ESP.restart();
             break;
     }
 
