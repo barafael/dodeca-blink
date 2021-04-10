@@ -94,16 +94,6 @@ void setup() {
 
     actual_brightness = settings.get_brightness();
 
-    char ssid1[15];
-    char ssid2[15];
-
-    uint64_t chipid = ESP.getEfuseMac();
-    auto chip = (uint16_t)(chipid >> 32);
-
-    // TODO use chip id for id string?
-    snprintf(ssid1, 15, "%04X", chip);
-    snprintf(ssid2, 15, "%08X", static_cast<uint32_t>(chipid));
-
 #ifdef ENABLE_BLUETOOTH
     String id = "Dodeca Lamp BlueTooth control";
     SerialBT.begin(id);
