@@ -16,5 +16,9 @@ class ThingDoer {
         return false;
     }
 
+    virtual char const *const get_thing_name(Command id) {
+        return "";
+    }
+
     virtual ~ThingDoer() = default;
 };

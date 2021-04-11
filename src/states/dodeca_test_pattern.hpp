@@ -70,6 +70,13 @@ class DodecaTestPattern: public DodecaState {
         }
     }
 
+    char const *const get_thing_name(Command id) override {
+        if (id == Command::ACTION_A) {
+            return "Advance";
+        }
+        return "";
+    }
+
     void advance() override {
         if (call_counter < SKIP_COUNTER) {
             call_counter += 1;

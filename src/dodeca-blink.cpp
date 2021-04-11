@@ -137,9 +137,9 @@ void loop() {
         size_t index = val - 65;
         Serial.println(index);
         if (states.try_set_index(index)) {
-            SerialBT.println("Success");
+            SerialBT.println("Successfully set state.");
         } else {
-            SerialBT.println("Fail");
+            SerialBT.println("Failed to set state.");
         }
         FastLED.clear();
     }
@@ -223,6 +223,16 @@ void loop() {
             break;
         case Command::ACTION_C:
             states.get_active_state()->do_thing(Command::ACTION_C);
+            break;
+
+        case Command::GET_COMMAND_NAMES:
+            SerialBT.print("Commands: ");
+            SerialBT.print(states.get_active_state()->get_thing_name(Command::ACTION_A));
+            SerialBT.print(";");
+            SerialBT.print(states.get_active_state()->get_thing_name(Command::ACTION_B));
+            SerialBT.print(";");
+            SerialBT.print(states.get_active_state()->get_thing_name(Command::ACTION_C));
+            SerialBT.println(";");
             break;
         case Command::GET_STATE_LIST:
             SerialBT.print("States: ");

@@ -18,6 +18,13 @@ public:
         return false;
     }
 
+    char const *const get_thing_name(Command id) override {
+        if (id == Command::ACTION_B) {
+            return "Next palette";
+        }
+        return "";
+    }
+
     CHSV read() override {
         return rgb2hsv_approximate(ColorFromPalette(palettes[current_palette], random8()));
     }

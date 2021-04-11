@@ -42,6 +42,18 @@ class DodecaTwinkle: public DodecaState {
         }
     }
 
+    char const *const get_thing_name(Command id) override {
+        switch (id)
+        {
+            case Command::ACTION_A:
+                return "Toggle blur";
+            case Command::ACTION_B:
+                return color_producer.get_thing_name(Command::ACTION_B);
+            default:
+                return "";
+        }
+    }
+
     void advance() override {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < NUM_RANDOM_BLINK_STATES; j++) {

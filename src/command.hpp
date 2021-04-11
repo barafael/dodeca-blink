@@ -15,11 +15,13 @@ enum class Command : uint8_t {
     ACTION_B = 'b',
     ACTION_C = 'c',
 
+    GET_COMMAND_NAMES = 'g',
+
     GET_STATE_LIST = 'l',
 
     GET_FIRMWARE_REVISION = 'v',
 };
 
 bool is_command(uint8_t val) {
-    return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c' || val == 'n' || val == 'p' || val == 'l' || val == 'v';
+    return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c' || val == 'n' || val == 'p' || val == 'l' || val == 'v' || val == 'g';
 }

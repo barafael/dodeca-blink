@@ -57,6 +57,13 @@ public:
         return false;
     }
 
+    char const *const get_thing_name(Command id) override {
+        if (id == Command::ACTION_A) {
+            return "Toggle blur";
+        }
+        return "";
+    }
+
     void advance() override {
         for (size_t i = 0; i < STRIP_COUNT; i++) {
             for (size_t j = 0; j < LEDS_PER_STRIP; j++) {
