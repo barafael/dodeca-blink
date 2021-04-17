@@ -52,7 +52,7 @@ class DodecaPathBFS: public PathCalculator {
                 return result;
             }
 
-            Neighbours n = dod.get_neighbouring_nodes_of(pair.get_node());
+            std::array<size_t, 3> n = dod.get_neighbouring_nodes_of(pair.get_node());
             for (size_t i = 0; i < 3; i++) {
                 if (!previous.has_key(n[i])) {
                     previous.set(n[i], pair.get_node());
