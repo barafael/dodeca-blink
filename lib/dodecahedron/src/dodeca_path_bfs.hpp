@@ -1,32 +1,36 @@
 #pragma once
 
-#include <cstddef>
-#include <cstdint>
-
 #include "dodeca_path_calc.hpp"
 #include "dodecahedron.hpp"
-
 #include "map.hpp"
 #include "queue.hpp"
 
+#include <cstddef>
+#include <cstdint>
+
 class NodeDistancePair {
-public:
-    NodeDistancePair() = default;
+  public:
+    constexpr NodeDistancePair() = default;
 
-    NodeDistancePair(size_t node_index, size_t distance) : node_index(node_index), distance(distance) {}
+    constexpr NodeDistancePair(size_t node_index, size_t distance): node_index(node_index), distance(distance) { }
 
-    size_t get_node() { return node_index; }
+    constexpr size_t get_node() const {
+        return node_index;
+    }
 
-    size_t get_dist() { return distance; }
+    constexpr size_t get_distance() const {
+        return distance;
+    }
 
-private:
+  private:
     size_t node_index = 0;
-    size_t distance = 0;
+    size_t distance   = 0;
 };
 
-class DodecaPathBFS : public PathCalculator {
-public:
-    DodecaPathBFS(Dodecahedron *dod) : dod(dod) {}
+class DodecaPathBFS: public PathCalculator {
+  public:
+    DodecaPathBFS(Dodecahedron *dod): dod(dod) {
+    }
 
     Path get_path(size_t from_node_index, size_t to_node_index) override {
         Map<size_t, size_t, 32> previous;
@@ -53,7 +57,7 @@ public:
             for (size_t i = 0; i < 3; i++) {
                 if (!previous.has_key(n[i])) {
                     previous.set(n[i], pair.get_node());
-                    NodeDistancePair p(n[i], pair.get_dist() + 1);
+                    NodeDistancePair p(n[i], pair.get_distance() + 1);
                     queue.push(p);
                 }
             }
@@ -63,6 +67,6 @@ public:
         return impossible;
     }
 
-private:
+  private:
     Dodecahedron *dod;
 };

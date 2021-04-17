@@ -1,13 +1,13 @@
 #pragma once
 
-#include <cstddef>
-
 #include "dodeca_graph.hpp"
+
+#include <cstddef>
 
 constexpr size_t MAX_PATH_LEN = 5;
 
 class Path {
-public:
+  public:
     bool contains(size_t index) {
         for (size_t i = 0; i < num_elems; i++) {
             if (nodes[i] == index) {
@@ -35,8 +35,8 @@ public:
         num_elems = 0;
     }
 
-private:
-    size_t num_elems = 0;
+  private:
+    size_t num_elems           = 0;
     size_t nodes[MAX_PATH_LEN] = {};
 };
 
