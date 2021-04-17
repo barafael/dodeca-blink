@@ -17,177 +17,7 @@ constexpr size_t NUM_EDGES = 30;
 
 class Dodecahedron {
   public:
-    Dodecahedron(): nodes(), edges() {
-      nodes[0].edge_index[0] = 5;
-      nodes[0].edge_index[1] = 0;
-      nodes[0].edge_index[2] = 1;
-
-      nodes[1].edge_index[0] = 6;
-      nodes[1].edge_index[1] = 1;
-      nodes[1].edge_index[2] = 2;
-
-      nodes[2].edge_index[0] = 7;
-      nodes[2].edge_index[1] = 2;
-      nodes[2].edge_index[2] = 3;
-
-      nodes[3].edge_index[0] = 8;
-      nodes[3].edge_index[1] = 3;
-      nodes[3].edge_index[2] = 4;
-
-      nodes[4].edge_index[0] = 9;
-      nodes[4].edge_index[1] = 4;
-      nodes[4].edge_index[2] = 0;
-
-      nodes[5].edge_index[0] = 19;
-      nodes[5].edge_index[1] = 5;
-      nodes[5].edge_index[2] = 10;
-
-      nodes[6].edge_index[0] = 15;
-      nodes[6].edge_index[1] = 6;
-      nodes[6].edge_index[2] = 11;
-
-      nodes[7].edge_index[0] = 16;
-      nodes[7].edge_index[1] = 7;
-      nodes[7].edge_index[2] = 12;
-
-      nodes[8].edge_index[0] = 17;
-      nodes[8].edge_index[1] = 8;
-      nodes[8].edge_index[2] = 13;
-
-      nodes[9].edge_index[0] = 18;
-      nodes[9].edge_index[1] = 9;
-      nodes[9].edge_index[2] = 14;
-
-      nodes[10].edge_index[0] = 20;
-      nodes[10].edge_index[1] = 15;
-      nodes[10].edge_index[2] = 10;
-
-      nodes[11].edge_index[0] = 21;
-      nodes[11].edge_index[1] = 16;
-      nodes[11].edge_index[2] = 11;
-
-      nodes[12].edge_index[0] = 22;
-      nodes[12].edge_index[1] = 17;
-      nodes[12].edge_index[2] = 12;
-
-      nodes[13].edge_index[0] = 23;
-      nodes[13].edge_index[1] = 18;
-      nodes[13].edge_index[2] = 13;
-
-      nodes[14].edge_index[0] = 24;
-      nodes[14].edge_index[1] = 19;
-      nodes[14].edge_index[2] = 14;
-
-      nodes[15].edge_index[0] = 25;
-      nodes[15].edge_index[1] = 20;
-      nodes[15].edge_index[2] = 29;
-
-      nodes[16].edge_index[0] = 26;
-      nodes[16].edge_index[1] = 21;
-      nodes[16].edge_index[2] = 25;
-
-      nodes[17].edge_index[0] = 27;
-      nodes[17].edge_index[1] = 22;
-      nodes[17].edge_index[2] = 26;
-
-      nodes[18].edge_index[0] = 28;
-      nodes[18].edge_index[1] = 23;
-      nodes[18].edge_index[2] = 27;
-
-      nodes[19].edge_index[0] = 29;
-      nodes[19].edge_index[1] = 24;
-      nodes[19].edge_index[2] = 28;
-
-      edges[0].node_index[0] = 4;
-      edges[0].node_index[1] = 0;
-
-      edges[1].node_index[0] = 0;
-      edges[1].node_index[1] = 1;
-
-      edges[2].node_index[0] = 1;
-      edges[2].node_index[1] = 2;
-
-      edges[3].node_index[0] = 2;
-      edges[3].node_index[1] = 3;
-
-      edges[4].node_index[0] = 3;
-      edges[4].node_index[1] = 4;
-
-      edges[5].node_index[0] = 0;
-      edges[5].node_index[1] = 5;
-
-      edges[6].node_index[0] = 1;
-      edges[6].node_index[1] = 6;
-
-      edges[7].node_index[0] = 2;
-      edges[7].node_index[1] = 7;
-
-      edges[8].node_index[0] = 3;
-      edges[8].node_index[1] = 8;
-
-      edges[9].node_index[0] = 4;
-      edges[9].node_index[1] = 9;
-
-      edges[10].node_index[0] = 5;
-      edges[10].node_index[1] = 10;
-
-      edges[11].node_index[0] = 6;
-      edges[11].node_index[1] = 11;
-
-      edges[12].node_index[0] = 7;
-      edges[12].node_index[1] = 12;
-
-      edges[13].node_index[0] = 8;
-      edges[13].node_index[1] = 13;
-
-      edges[14].node_index[0] = 9;
-      edges[14].node_index[1] = 14;
-
-      edges[15].node_index[0] = 6;
-      edges[15].node_index[1] = 10;
-
-      edges[16].node_index[0] = 7;
-      edges[16].node_index[1] = 11;
-
-      edges[17].node_index[0] = 8;
-      edges[17].node_index[1] = 12;
-
-      edges[18].node_index[0] = 9;
-      edges[18].node_index[1] = 13;
-
-      edges[19].node_index[0] = 5;
-      edges[19].node_index[1] = 14;
-
-      edges[20].node_index[0] = 10;
-      edges[20].node_index[1] = 15;
-
-      edges[21].node_index[0] = 11;
-      edges[21].node_index[1] = 16;
-
-      edges[22].node_index[0] = 12;
-      edges[22].node_index[1] = 17;
-
-      edges[23].node_index[0] = 13;
-      edges[23].node_index[1] = 18;
-
-      edges[24].node_index[0] = 14;
-      edges[24].node_index[1] = 19;
-
-      edges[25].node_index[0] = 15;
-      edges[25].node_index[1] = 16;
-
-      edges[26].node_index[0] = 16;
-      edges[26].node_index[1] = 17;
-
-      edges[27].node_index[0] = 17;
-      edges[27].node_index[1] = 18;
-
-      edges[28].node_index[0] = 18;
-      edges[28].node_index[1] = 19;
-
-      edges[29].node_index[0] = 19;
-      edges[29].node_index[1] = 15;
-    }
+    constexpr Dodecahedron() = default;
 
     std::array<size_t, 3> get_neighbouring_nodes_of(size_t node_index) {
       return std::array<size_t, 3> {
@@ -197,6 +27,59 @@ class Dodecahedron {
       };
     }
 
-    Node nodes[NUM_NODES];
-    Edge edges[NUM_EDGES];
+    std::array<Node, NUM_NODES> nodes {{
+      Node {5, 0, 1},
+      Node {6, 1, 2},
+      Node {7, 2, 3},
+      Node {8, 3, 4},
+      Node {9, 4, 0},
+      Node {19, 5, 10},
+      Node {15, 6, 11},
+      Node {16, 7, 12},
+      Node {17, 8, 13},
+      Node {18, 9, 14},
+      Node {20, 15, 10},
+      Node {21, 16, 11},
+      Node {22, 17, 12},
+      Node {23, 18, 13},
+      Node {24, 19, 14},
+      Node {25, 20, 29},
+      Node {26, 21, 25},
+      Node {27, 22, 26},
+      Node {28, 23, 27},
+      Node {29, 24, 28},
+    }};
+
+    std::array<Edge, NUM_EDGES> edges {{
+      Edge {4, 0},
+      Edge {0, 1},
+      Edge {1, 2},
+      Edge {2, 3},
+      Edge {3, 4},
+      Edge {0, 5},
+      Edge {1, 6},
+      Edge {2, 7},
+      Edge {3, 8},
+      Edge {4, 9},
+      Edge {5, 10},
+      Edge {6, 11},
+      Edge {7, 12},
+      Edge {8, 13},
+      Edge {9, 14},
+      Edge {6, 10},
+      Edge {7, 11},
+      Edge {8, 12},
+      Edge {9, 13},
+      Edge {5, 14},
+      Edge {10, 15},
+      Edge {11, 16},
+      Edge {12, 17},
+      Edge {13, 18},
+      Edge {14, 19},
+      Edge {15, 16},
+      Edge {16, 17},
+      Edge {17, 18},
+      Edge {18, 19},
+      Edge {19, 15},
+    }};
 };

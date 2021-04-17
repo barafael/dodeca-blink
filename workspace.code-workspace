@@ -9,7 +9,8 @@
         "files.associations": {
             "*.tcc": "cpp",
             "array": "cpp",
-            "cstddef": "cpp"
+            "cstddef": "cpp",
+            "iostream": "cpp"
         }
     }
 }
