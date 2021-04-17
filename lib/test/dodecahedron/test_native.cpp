@@ -6,8 +6,7 @@
 namespace Test_NativeDodecahedron {
 
     void test_short_path() {
-        Dodecahedron dod;
-        DodecaPathBFS bfs(&dod);
+        DodecaPathBFS bfs;
 
         Path p = bfs.get_path(0, 10);
         size_t len = 0;
@@ -20,8 +19,7 @@ namespace Test_NativeDodecahedron {
     }
 
     void test_18_to_10() {
-        Dodecahedron dod;
-        DodecaPathBFS bfs(&dod);
+        DodecaPathBFS bfs;
 
         Path p = bfs.get_path(18, 10);
         size_t expected[4] = {10, 15, 19, 18};
@@ -34,8 +32,7 @@ namespace Test_NativeDodecahedron {
     }
 
     void test_2_to_19() {
-        Dodecahedron dod;
-        DodecaPathBFS bfs(&dod);
+        DodecaPathBFS bfs;
 
         Path p = bfs.get_path(2, 19);
         size_t expected[5] = {19, 15, 16, 11, 7};
@@ -48,8 +45,7 @@ namespace Test_NativeDodecahedron {
     }
 
     void test_9_to_17() {
-        Dodecahedron dod;
-        DodecaPathBFS bfs(&dod);
+        DodecaPathBFS bfs;
 
         Path p = bfs.get_path(9, 17);
         size_t expected[4] = {17, 18, 13, 9};

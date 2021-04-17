@@ -29,8 +29,7 @@ class NodeDistancePair {
 
 class DodecaPathBFS: public PathCalculator {
   public:
-    DodecaPathBFS(Dodecahedron *dod): dod(dod) {
-    }
+    DodecaPathBFS() = default;
 
     Path get_path(size_t from_node_index, size_t to_node_index) override {
         Map<size_t, size_t, 32> previous;
@@ -53,7 +52,7 @@ class DodecaPathBFS: public PathCalculator {
                 return result;
             }
 
-            Neighbours n = dod->get_neighbouring_nodes_of(pair.get_node());
+            Neighbours n = dod.get_neighbouring_nodes_of(pair.get_node());
             for (size_t i = 0; i < 3; i++) {
                 if (!previous.has_key(n[i])) {
                     previous.set(n[i], pair.get_node());
@@ -68,5 +67,5 @@ class DodecaPathBFS: public PathCalculator {
     }
 
   private:
-    Dodecahedron *dod;
+    Dodecahedron dod;
 };
