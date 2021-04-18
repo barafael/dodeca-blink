@@ -68,6 +68,16 @@ namespace Test_NativeDodecahedron {
         static_assert(e2.node_index[1] == 2, "constexpr construction of edge e2 failed");
     }
 
+    void test_constexpr_edge_traverse() {
+        constexpr Edge e(1, 2);
+        constexpr size_t one = e.traverse_from(2);
+        constexpr size_t two = e.traverse_from(1);
+        static_assert(one == 1, "Wrong constexpr traversal");
+        static_assert(two == 2, "Wrong constexpr traversal");
+
+        static_assert(0xFFFFFFFF == e.traverse_from(3), "Wrong constexpr traversal");
+    }
+
     void test_constexpr_node() {
         constexpr Node n1;
         constexpr Node n2(4, 5, 6);
@@ -91,6 +101,7 @@ namespace Test_NativeDodecahedron {
         RUN_TEST(test_9_to_17);
         RUN_TEST(test_navigate_graph);
         RUN_TEST(test_constexpr_edge);
+        RUN_TEST(test_constexpr_edge_traverse);
         RUN_TEST(test_constexpr_node);
         RUN_TEST(test_constexpr_node_distance_pair);
         UNITY_END();

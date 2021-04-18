@@ -36,6 +36,6 @@ class Path {
     }
 
   private:
-    size_t num_elems           = 0;
-    size_t nodes[MAX_PATH_LEN] = {};
+    size_t num_elems = 0;
+    std::array<size_t, MAX_PATH_LEN> nodes;
 };
