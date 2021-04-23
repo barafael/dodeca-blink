@@ -1,6 +1,7 @@
 #pragma once
 
-#include "dodeca_graph.hpp"
+#include "dodeca_node.hpp"
+#include "dodeca_edge.hpp"
 
 #include <array>
 #include <cstddef>
@@ -19,7 +20,7 @@ class Dodecahedron {
   public:
     constexpr Dodecahedron() = default;
 
-    std::array<size_t, 3> get_neighbouring_nodes_of(size_t node_index) {
+    std::array<size_t, 3> get_neighbouring_nodes_of(size_t node_index) const {
       return std::array<size_t, 3> {
         edges[nodes[node_index].edge_index[0]].traverse_from(node_index),
         edges[nodes[node_index].edge_index[1]].traverse_from(node_index),

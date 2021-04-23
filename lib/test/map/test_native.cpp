@@ -27,9 +27,22 @@ namespace Test_NativeMap {
         TEST_ASSERT_EQUAL(m.get_len(), 0);
     }
 
+    constexpr size_t const_map_len_helper() {
+        Map<uint32_t, size_t, 64> map;
+        map.set(1, 4096);
+        map.set(2, 42);
+        return map.get_len();
+    }
+
+    void test_getset_constexpr() {
+        static_assert(const_map_len_helper() == 2, "");
+        TEST_ASSERT_EQUAL(const_map_len_helper(), 2);
+    }
+
     void test_all() {
         UNITY_BEGIN();
         RUN_TEST(test_getset);
+        RUN_TEST(test_getset_constexpr);
         UNITY_END();
     }
 }// namespace Test_NativeMap

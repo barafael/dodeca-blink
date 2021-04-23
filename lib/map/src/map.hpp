@@ -1,15 +1,18 @@
 #pragma once
 
 #include <cstddef>
+#include <array>
 
 template<typename K, typename V, size_t SIZE>
 class Map {
-public:
-    void reset() {
+  public:
+    constexpr Map(): keys(), values(), len() {}
+
+    constexpr void reset() {
         len = 0;
     }
 
-    V *get(K key) {
+    constexpr V *get(K key) {
         for (size_t i = 0; i < len; i++) {
             if (keys[i] == key) {
                 return &values[i];
@@ -18,7 +21,7 @@ public:
         return nullptr;
     }
 
-    bool set(K key, V value) {
+    constexpr bool set(K key, V value) {
         if (len >= SIZE) {
             return false;
         }
@@ -31,11 +34,11 @@ public:
         }
         keys[len] = key;
         values[len] = value;
-        len++;
+        len += 1;
         return true;
     }
 
-    bool has_key(K key) {
+    constexpr bool has_key(K key) {
         for (size_t i = 0; i < len; i++) {
             if (key == keys[i]) {
                 return true;
@@ -44,12 +47,12 @@ public:
         return false;
     }
 
-    size_t get_len() {
+    constexpr size_t get_len() const {
         return len;
     }
 
 private:
     size_t len = 0;
-    K keys[SIZE];
-    V values[SIZE];
+    std::array<K, SIZE> keys = {};
+    std::array<V, SIZE> values = {};
 };

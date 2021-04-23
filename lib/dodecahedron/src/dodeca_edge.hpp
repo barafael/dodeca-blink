@@ -3,14 +3,6 @@
 #include <array>
 #include <cstddef>
 
-class Node {
-  public:
-    constexpr Node() = default;
-    constexpr Node(size_t index1, size_t index2, size_t index3): edge_index{index1, index2, index3} {};
-
-    std::array<size_t, 3> edge_index = {};
-};
-
 class Edge {
   public:
     constexpr Edge() = default;
@@ -28,5 +20,5 @@ class Edge {
 
     const size_t invalid_node = 0xFFFFFFFF;
 
-    std::array<size_t, 2> node_index = {};
+    std::array<size_t, 2> node_index {};
 };

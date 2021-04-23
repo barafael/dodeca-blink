@@ -1,6 +1,7 @@
 #pragma once
 
-#include "dodeca_graph.hpp"
+#include "dodeca_node.hpp"
+#include "dodeca_edge.hpp"
 
 #include <cstddef>
 
