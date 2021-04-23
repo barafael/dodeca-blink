@@ -6,7 +6,9 @@
 template<typename T, size_t SIZE>
 class Queue {
 public:
-    void push(T elem) {
+    constexpr Queue(): oldest(), num_elems(), data() {}
+
+    constexpr void push(T elem) {
         size_t index = (oldest + num_elems) % SIZE;
         data[index] = elem;
         if (num_elems == SIZE) {
@@ -16,29 +18,29 @@ public:
         }
     }
 
-    T pop() {
+    constexpr T pop() {
         T elem = data[oldest];
         oldest = (oldest + 1) % SIZE;
         num_elems--;
         return elem;
     }
 
-    T *peek() {
+    constexpr T *peek() {
         if (is_empty()) {
             return nullptr;
         }
         return &data[oldest];
     }
 
-    size_t len() {
+    constexpr size_t len() const {
         return num_elems;
     }
 
-    bool is_empty() {
+    constexpr bool is_empty() const {
         return len() == 0;
     }
 
-    bool is_full() {
+    constexpr bool is_full() {
         return len() == SIZE;
     }
 

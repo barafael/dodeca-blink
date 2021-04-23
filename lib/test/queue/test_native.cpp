@@ -60,6 +60,69 @@ namespace Test_NativeQueue {
         TEST_ASSERT(q.is_empty());
     }
 
+    constexpr size_t const_queue_len_helper() {
+        Queue<char, 8> q;
+        q.push('a');
+        q.push('g');
+        q.push('x');
+        return q.len();
+    }
+
+    constexpr uint32_t const_queue_pushpop() {
+        Queue<uint32_t, 5> q;
+        q.push(3);
+        q.push(4);
+        q.push(5);
+        q.push(6);
+        q.push(7);
+        q.push(8);
+        q.push(9);
+        q.push(10);
+        q.push(11);
+        q.push(12);
+        return q.pop();
+    }
+
+    constexpr bool constexpr_test_push_helper() {
+        Queue<uint64_t, 4> q;
+        if (!q.is_empty()) {
+            TEST_ASSERT(false);
+        }
+        if (q.len() != 0) {
+            TEST_ASSERT(false);
+        }
+
+        q.push(3);
+        q.push(4);
+
+        if (q.len() != 2) {
+            TEST_ASSERT(false);
+        }
+
+        if (q.pop() != 3) {
+            TEST_ASSERT(false);
+        }
+        if (q.pop() != 4) {
+            TEST_ASSERT(false);
+        }
+        if (q.peek() != nullptr) {
+            TEST_ASSERT(false);
+        }
+        if (q.len() != 0) {
+            TEST_ASSERT(false);
+        }
+        if (!q.is_empty()) {
+            TEST_ASSERT(false);
+        }
+        return true;
+    }
+
+    void test_queue_constexpr() {
+        static_assert(const_queue_len_helper() == 3, "");
+        static_assert(const_queue_pushpop() == 8, "");
+        static_assert(constexpr_test_push_helper(), "");
+    }
+
     void test_all() {
         UNITY_BEGIN();
         RUN_TEST(test_push);
