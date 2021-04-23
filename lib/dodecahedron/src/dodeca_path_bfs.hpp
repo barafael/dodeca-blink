@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dodeca_path_calc.hpp"
+#include "dodeca_path.hpp"
 #include "dodecahedron.hpp"
 #include "map.hpp"
 #include "queue.hpp"
@@ -8,30 +8,13 @@
 #include <cstddef>
 #include <cstdint>
 
-class NodeDistancePair {
+#include "dodeca_node_distance_pair.hpp"
+
+class DodecaPathBFS {
   public:
-    constexpr NodeDistancePair() = default;
+    constexpr DodecaPathBFS(): dod() { }
 
-    constexpr NodeDistancePair(size_t node_index, size_t distance): node_index(node_index), distance(distance) { }
-
-    constexpr size_t get_node() const {
-        return node_index;
-    }
-
-    constexpr size_t get_distance() const {
-        return distance;
-    }
-
-  private:
-    size_t node_index = 0;
-    size_t distance   = 0;
-};
-
-class DodecaPathBFS: public PathCalculator {
-  public:
-    DodecaPathBFS() = default;
-
-    Path get_path(size_t from_node_index, size_t to_node_index) override {
+    Path get_path(size_t from_node_index, size_t to_node_index) {
         Map<size_t, size_t, 32> previous;
         Queue<NodeDistancePair, 32> queue;
 
