@@ -38,6 +38,17 @@ class Path {
         num_elems = 0;
     }
 
+    constexpr Path& operator=(const Path& other) {
+        if (this == &other) {
+            return *this;
+        }
+        this->num_elems = other.num_elems;
+        for (size_t i = 0; i < other.num_elems; i++) {
+            this->nodes[i] = other.nodes[i];
+        }
+        return *this;
+    }
+
   private:
     size_t num_elems                       = 0;
     std::array<size_t, MAX_PATH_LEN> nodes = {};

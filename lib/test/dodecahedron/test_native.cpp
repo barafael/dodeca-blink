@@ -1,5 +1,6 @@
 #include "dodecahedron.hpp"
 #include "dodeca_path_bfs.hpp"
+#include "dodeca_path_table.hpp"
 
 #include "test_native.hpp"
 
@@ -93,6 +94,11 @@ namespace Test_NativeDodecahedron {
         static_assert(p.second == 6, "constexpr construction of pair p failed");
     }
 
+    void test_dodeca_path_table() {
+        constexpr DodecaPathTable table;
+        constexpr Path thing = table.get_path(1, 5);
+    }
+
     void test_all() {
         UNITY_BEGIN();
         RUN_TEST(test_short_path);
@@ -103,6 +109,7 @@ namespace Test_NativeDodecahedron {
         RUN_TEST(test_constexpr_edge);
         RUN_TEST(test_constexpr_edge_traverse);
         RUN_TEST(test_constexpr_node);
+        RUN_TEST(test_dodeca_path_table);
         UNITY_END();
     }
 }// namespace Test_NativeQueue
