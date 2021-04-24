@@ -3,6 +3,8 @@
 
 #include "test_native.hpp"
 
+#include <utility>
+
 namespace Test_NativeDodecahedron {
 
     void test_short_path() {
@@ -79,18 +81,16 @@ namespace Test_NativeDodecahedron {
     }
 
     void test_constexpr_node() {
-        constexpr Node n1;
         constexpr Node n2(4, 5, 6);
         static_assert(n2.edge_index[0] == 4, "constexpr construction of node n2 failed");
         static_assert(n2.edge_index[1] == 5, "constexpr construction of node n2 failed");
         static_assert(n2.edge_index[2] == 6, "constexpr construction of node n2 failed");
     }
 
-    void test_constexpr_node_distance_pair() {
-        constexpr NodeDistancePair nd1;
-        constexpr NodeDistancePair nd2(4, 6);
-        static_assert(nd2.get_node() == 4, "constexpr construction of NodeDistancePair nd2 failed");
-        static_assert(nd2.get_distance() == 6, "constexpr construction of NodeDistancePair nd2 failed");
+    void test_constexpr_pair() {
+        constexpr std::pair<size_t, size_t> p(4, 6);
+        static_assert(p.first == 4, "constexpr construction of pair p failed");
+        static_assert(p.second == 6, "constexpr construction of pair p failed");
     }
 
     void test_all() {
@@ -103,7 +103,6 @@ namespace Test_NativeDodecahedron {
         RUN_TEST(test_constexpr_edge);
         RUN_TEST(test_constexpr_edge_traverse);
         RUN_TEST(test_constexpr_node);
-        RUN_TEST(test_constexpr_node_distance_pair);
         UNITY_END();
     }
 }// namespace Test_NativeQueue
