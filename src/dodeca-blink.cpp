@@ -30,6 +30,7 @@
 #include "color_provider/palette_color_provider.hpp"
 #include "palettes.hpp"
 #include "lamp_settings.hpp"
+#include "dodeca_path_table.hpp"
 
 #ifdef ENABLE_BLUETOOTH
 BluetoothSerial SerialBT;
@@ -63,6 +64,8 @@ Command command = Command::NONE;
 uint8_t actual_brightness;
 
 BlinkStateMachine states(&fading);
+
+DodecaPathTable table;
 
 void setup() {
     // sanity check delay - allows reprogramming if accidently blowing power w/leds

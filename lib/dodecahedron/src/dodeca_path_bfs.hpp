@@ -12,21 +12,11 @@
 
 using node_distance_pair = std::pair<size_t, size_t>;
 
-template<>
-constexpr node_distance_pair& node_distance_pair::operator=(const node_distance_pair& other) {
-    if (this == &other) {
-        return *this;
-    }
-    this->first = other.first;
-    this->second = other.second;
-    return *this;
-}
-
 class DodecaPathBFS {
   public:
-    constexpr DodecaPathBFS(): dod() { }
+    DodecaPathBFS(): dod() { }
 
-    constexpr Path get_path(size_t from_node_index, size_t to_node_index) {
+    Path get_path(size_t from_node_index, size_t to_node_index) {
         Map<size_t, size_t, 32> previous;
         Queue<std::pair<size_t, size_t>, 32> queue;
 

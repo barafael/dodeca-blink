@@ -6,13 +6,13 @@
 template<typename K, typename V, size_t SIZE>
 class Map {
   public:
-    constexpr Map(): keys(), values(), len() {}
+    Map(): len(), keys(), values() {}
 
-    constexpr void reset() {
+    void reset() {
         len = 0;
     }
 
-    constexpr V *get(K key) {
+    V *get(K key) {
         for (size_t i = 0; i < len; i++) {
             if (keys[i] == key) {
                 return &values[i];
@@ -21,7 +21,7 @@ class Map {
         return nullptr;
     }
 
-    constexpr bool set(K key, V value) {
+    bool set(K key, V value) {
         if (len >= SIZE) {
             return false;
         }
@@ -38,7 +38,7 @@ class Map {
         return true;
     }
 
-    constexpr bool has_key(K key) {
+    bool has_key(K key) {
         for (size_t i = 0; i < len; i++) {
             if (key == keys[i]) {
                 return true;
@@ -47,7 +47,7 @@ class Map {
         return false;
     }
 
-    constexpr size_t get_len() const {
+    size_t get_len() const {
         return len;
     }
 

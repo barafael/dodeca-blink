@@ -18,9 +18,9 @@ constexpr size_t NUM_EDGES = 30;
 
 class Dodecahedron {
     public:
-        constexpr Dodecahedron() = default;
+        Dodecahedron() = default;
 
-        constexpr std::array<size_t, 3> get_neighbouring_nodes_of(size_t node_index) const {
+        std::array<size_t, 3> get_neighbouring_nodes_of(size_t node_index) const {
             return std::array<size_t, 3> {
                 edges[nodes[node_index].edge_index[0]].traverse_from(node_index),
                 edges[nodes[node_index].edge_index[1]].traverse_from(node_index),

@@ -7,11 +7,13 @@
 
 constexpr size_t MAX_PATH_LEN = 5;
 
+using path_t = std::pair<std::array<size_t, MAX_PATH_LEN>, size_t>;
+
 class Path {
   public:
-    constexpr Path(): num_elems(), nodes() { }
+    Path(): num_elems(), nodes() { }
 
-    constexpr bool contains(size_t index) {
+    bool contains(size_t index) {
         for (size_t i = 0; i < num_elems; i++) {
             if (nodes[i] == index) {
                 return true;
@@ -20,7 +22,7 @@ class Path {
         return false;
     }
 
-    constexpr void append(size_t index) {
+    void append(size_t index) {
         if (!contains(index)) {
             if (num_elems < MAX_PATH_LEN) {
                 nodes[num_elems] = index;
@@ -29,16 +31,19 @@ class Path {
         }
     }
 
-    constexpr size_t *get_data(size_t *num_elems) {
-        *num_elems = this->num_elems;
-        return &nodes[0];
+    const path_t get_data() const {
+        return std::make_pair(nodes, num_elems);
     }
 
-    constexpr void reset() {
+    const size_t len() const {
+        return num_elems;
+    }
+
+    void reset() {
         num_elems = 0;
     }
 
-    constexpr Path& operator=(const Path& other) {
+    Path& operator=(const Path& other) {
         if (this == &other) {
             return *this;
         }
