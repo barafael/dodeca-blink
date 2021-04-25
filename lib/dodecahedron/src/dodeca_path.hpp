@@ -1,9 +1,7 @@
 #pragma once
 
-#include "dodeca_edge.hpp"
-#include "dodeca_node.hpp"
-
 #include <cstddef>
+#include <cassert>
 
 constexpr size_t MAX_PATH_LEN = 5;
 
@@ -11,7 +9,16 @@ using path_t = std::pair<std::array<size_t, MAX_PATH_LEN>, size_t>;
 
 class Path {
   public:
-    Path(): num_elems(), nodes() { }
+    Path() = default;
+
+    Path(std::initializer_list<size_t> list) {
+        assert(list.size() <= MAX_PATH_LEN);
+        num_elems = list.size();
+        size_t i = 0;
+        for (auto elem: list) {
+            nodes[i++] = elem;
+        }
+    }
 
     bool contains(size_t index) {
         for (size_t i = 0; i < num_elems; i++) {

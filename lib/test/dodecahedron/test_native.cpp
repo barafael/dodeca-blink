@@ -64,6 +64,30 @@ namespace Test_NativeDodecahedron {
         Dodecahedron dod;
     }
 
+    void test_make_table() {
+        DodecaPathBFS bfs;
+        DodecaPathTable table;
+        for (size_t i = 0; i < NUM_NODES; i++) {
+            for (size_t j = 0; j < NUM_NODES; j++) {
+                auto expected = bfs.get_path(i, j);
+                auto table_entry = table.get_path(i, j);
+                TEST_ASSERT(expected.len() == table_entry.len());
+                for (size_t i = 0; i < expected.len(); i++) {
+                    TEST_ASSERT(expected.get_data().first[i] == table_entry.get_data().first[i]);
+                }
+            }
+        }
+    }
+
+    void test_path() {
+        Path p{3, 4, 5};
+        size_t expected[3] = {3, 4, 5};
+        TEST_ASSERT(p.len() == 3);
+        for (size_t i = 0; i < 3; i++) {
+            TEST_ASSERT(p.get_data().first[i] == expected[i]);
+        }
+    }
+
     void test_all() {
         UNITY_BEGIN();
         RUN_TEST(test_short_path);
@@ -71,6 +95,8 @@ namespace Test_NativeDodecahedron {
         RUN_TEST(test_2_to_19);
         RUN_TEST(test_9_to_17);
         RUN_TEST(test_navigate_graph);
-       UNITY_END();
+        RUN_TEST(test_make_table);
+        RUN_TEST(test_path);
+        UNITY_END();
     }
 }// namespace Test_NativeQueue
