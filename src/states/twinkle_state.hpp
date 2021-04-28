@@ -20,7 +20,7 @@ public:
         color = color_producer.read();
     }
 
-    void advance(CRGB leds[], Producer<CHSV> &color_producer) {
+    void advance(CRGB leds[], ColorProvider &color_producer) {
         if (static_cast<uint32_t>(brightness) + step_size > UINT8_MAX) {
             rising = false;
         }

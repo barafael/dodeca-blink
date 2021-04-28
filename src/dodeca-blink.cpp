@@ -17,6 +17,7 @@
 #include "states/dodeca_twinkle.hpp"
 #include "states/dodeca_test_pattern.hpp"
 #include "states/blink_states.hpp"
+#include "states/snake.hpp"
 
 #include "firmware_update/updater.hpp"
 

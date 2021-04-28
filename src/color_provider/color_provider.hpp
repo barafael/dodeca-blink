@@ -5,6 +5,7 @@
 
 #include <FastLED.h>
 
+// TODO rename all providers to producers
 class ColorProvider: public Producer<CHSV>, public ThingDoer {
 
 };
