@@ -15,6 +15,11 @@
 
 constexpr size_t NUM_RANDOM_BLINK_STATES = 8;
 
+class State {
+  public:
+    bool blur = false;
+};
+
 class DodecaTwinkle: public DodecaState {
   public:
     DodecaTwinkle(String name, ColorProvider& color_producer): DodecaState(name), color_producer(color_producer) {
