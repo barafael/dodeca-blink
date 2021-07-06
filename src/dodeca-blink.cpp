@@ -12,48 +12,48 @@
 #endif
 #endif
 
+#include "states/blink_states.hpp"
 #include "states/dodeca_color_sparkle.hpp"
 #include "states/dodeca_fade_palette.hpp"
-#include "states/dodeca_twinkle.hpp"
 #include "states/dodeca_test_pattern.hpp"
-#include "states/blink_states.hpp"
+#include "states/dodeca_twinkle.hpp"
 
 #include "firmware_update/updater.hpp"
 
-#include "constants.hpp"
-#include "pins.hpp"
-#include "firmware_revision.hpp"
-#include "led_data.hpp"
-#include "command.hpp"
+#include "color_provider/palette_color_provider.hpp"
 #include "color_provider/random_color_provider.hpp"
 #include "color_provider/solid_color_provider.hpp"
-#include "color_provider/palette_color_provider.hpp"
-#include "palettes.hpp"
-#include "lamp_settings.hpp"
+#include "command.hpp"
+#include "constants.hpp"
 #include "dodeca_path_table.hpp"
+#include "firmware_revision.hpp"
+#include "lamp_settings.hpp"
+#include "led_data.hpp"
+#include "palettes.hpp"
+#include "pins.hpp"
 
 #ifdef ENABLE_BLUETOOTH
 BluetoothSerial SerialBT;
 #endif
 
 RandomColorProvider random_color;
-SolidColorProvider blue_color(rgb2hsv_approximate(CRGB::Blue));
-SolidColorProvider white_color(rgb2hsv_approximate(CRGB::White));
-CRGBPalette16 palettes[] = {
-sunset_palette,
-es_emerald_dragon_08_gp,
-es_ocean_breeze_001_gp,
-es_rivendell_01_gp,
+SolidColorProvider  blue_color(rgb2hsv_approximate(CRGB::Blue));
+SolidColorProvider  white_color(rgb2hsv_approximate(CRGB::White));
+CRGBPalette16       palettes[] = {
+    sunset_palette,
+    es_emerald_dragon_08_gp,
+    es_ocean_breeze_001_gp,
+    es_rivendell_01_gp,
 };
 PaletteColorProvider palette_color(palettes, 4);
 
-DodecaFadePalette fading("Fading");
-DodecaTestPattern test_pattern("Test Pattern", LEDS_PER_EDGE);
+DodecaFadePalette  fading("Fading");
+DodecaTestPattern  test_pattern("Test Pattern", LEDS_PER_EDGE);
 DodecaColorSparkle sparkling("Sparkling");
-DodecaTwinkle random_blink("Random blink", random_color);
-DodecaTwinkle palette_blink("Palette blink", palette_color);
-DodecaTwinkle blue_blink("Blue blink", blue_color);
-DodecaTwinkle white_blink("White blink", white_color);
+DodecaTwinkle      random_blink("Random blink", random_color);
+DodecaTwinkle      palette_blink("Palette blink", palette_color);
+DodecaTwinkle      blue_blink("Blue blink", blue_color);
+DodecaTwinkle      white_blink("White blink", white_color);
 
 Preferences persistent_state;
 
@@ -76,9 +76,7 @@ void setup() {
     UpdateStatus update_status = attempt_update();
     switch (update_status) {
         case UpdateStatus::NO_CARD:
-        case UpdateStatus::FILE_ERROR:
-            Serial.println("Continuing without update.");
-            break;
+        case UpdateStatus::FILE_ERROR: Serial.println("Continuing without update."); break;
         case UpdateStatus::INSUFFICIENT_SPACE:
         case UpdateStatus::UPDATE_ERROR:
             Serial.println("Error occurred during update. Continuing, here be dragons.");
@@ -148,8 +146,7 @@ void loop() {
     }
 
     switch (command) {
-        case Command::NONE:
-            break;
+        case Command::NONE: break;
         case Command::INCREASE_BRIGHTNESS: {
             if (settings.get_brightness() < BRIGHTNESS_STEP) {
                 settings.set_brightness(settings.get_brightness() + BRIGHTNESS_TINY_STEP);
@@ -170,8 +167,7 @@ void loop() {
                 SerialBT.println("max brightness");
 #endif
             }
-        }
-            break;
+        } break;
         case Command::DECREASE_BRIGHTNESS: {
             if (settings.get_brightness() <= BRIGHTNESS_STEP) {
                 uint8_t brightness = settings.get_brightness();
@@ -194,8 +190,7 @@ void loop() {
                 SerialBT.println(settings.get_brightness());
 #endif
             }
-        }
-            break;
+        } break;
         case Command::NEXT_STATE: {
             states.go_to_next();
             settings.set_index(states.get_active_index());
@@ -205,8 +200,7 @@ void loop() {
             SerialBT.print("State: ");
             SerialBT.println(*states.get_active_state()->get_name());
 #endif
-        }
-            break;
+        } break;
         case Command::PREVIOUS_STATE: {
             states.go_to_previous();
             settings.set_index(states.get_active_index());
@@ -216,17 +210,10 @@ void loop() {
             SerialBT.print("State: ");
             SerialBT.println(*states.get_active_state()->get_name());
 #endif
-        }
-            break;
-        case Command::ACTION_A:
-            states.get_active_state()->do_thing(Command::ACTION_A);
-            break;
-        case Command::ACTION_B:
-            states.get_active_state()->do_thing(Command::ACTION_B);
-            break;
-        case Command::ACTION_C:
-            states.get_active_state()->do_thing(Command::ACTION_C);
-            break;
+        } break;
+        case Command::ACTION_A: states.get_active_state()->do_thing(Command::ACTION_A); break;
+        case Command::ACTION_B: states.get_active_state()->do_thing(Command::ACTION_B); break;
+        case Command::ACTION_C: states.get_active_state()->do_thing(Command::ACTION_C); break;
 
         case Command::GET_COMMAND_NAMES:
             SerialBT.print("Commands: ");
@@ -239,7 +226,7 @@ void loop() {
             break;
         case Command::GET_STATE_LIST:
             SerialBT.print("States: ");
-            for (DodecaState *state: states) {
+            for (DodecaState *state : states) {
                 SerialBT.print(*state->get_name());
                 SerialBT.print("; ");
             }
