@@ -16,6 +16,7 @@
 #include "states/dodeca_color_sparkle.hpp"
 #include "states/dodeca_fade_palette.hpp"
 #include "states/dodeca_test_pattern.hpp"
+#include "states/dodeca_test_stripes.hpp"
 #include "states/dodeca_twinkle.hpp"
 
 #include "firmware_update/updater.hpp"
@@ -49,6 +50,7 @@ PaletteColorProvider palette_color(palettes, 4);
 
 DodecaFadePalette  fading("Fading");
 DodecaTestPattern  test_pattern("Test Pattern", LEDS_PER_EDGE);
+DodecaTestStripes  test_stripes("Test Stripes", LEDS_PER_EDGE);
 DodecaColorSparkle sparkling("Sparkling");
 DodecaTwinkle      random_blink("Random blink", random_color);
 DodecaTwinkle      palette_blink("Palette blink", palette_color);
@@ -103,6 +105,7 @@ void setup() {
     random16_add_entropy(static_cast<uint16_t>(random(19885678)));
 
     states.add_state(&test_pattern);
+    states.add_state(&test_stripes);
     states.add_state(&sparkling);
     states.add_state(&random_blink);
     states.add_state(&palette_blink);
