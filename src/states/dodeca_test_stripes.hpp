@@ -74,10 +74,10 @@ class DodecaTestStripes : public DodecaState {
         }
 
         // Reset old LEDs
-        for (size_t i = 0; i < LEDS_PER_EDGE; i++) { led_array[previous.strip][previous.index + i] = CRGB::Black; }
+        for (size_t i = 0; i < LEDS_PER_EDGE; i++) { led_array[previous.strip()][previous.index() + i] = CRGB::Black; }
 
-        CRGB current_color = color[current.strip];
-        for (size_t i = 0; i < LEDS_PER_EDGE; i++) { led_array[current.strip][current.index + i] = current_color; }
+        CRGB current_color = color[current.strip()];
+        for (size_t i = 0; i < LEDS_PER_EDGE; i++) { led_array[current.strip()][current.index() + i] = current_color; }
         previous = current;
 
         current_edge_index = (current_edge_index + 1) % NUM_EDGES;
@@ -85,7 +85,7 @@ class DodecaTestStripes : public DodecaState {
     }
 
     private:
-    CRGB color[6] = { CRGB::DarkGreen, CRGB::DarkOrange, CRGB::White, CRGB::SaddleBrown, CRGB::Blue, CRGB::Yellow };
+    CRGB color[6] = { CRGB::DarkGreen, CRGB::DarkOrange, CRGB::White, CRGB::Brown, CRGB::Blue, CRGB::Yellow };
 
     IndexPair coordinates[NUM_EDGES] = {};
 
