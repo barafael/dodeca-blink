@@ -18,6 +18,7 @@
 #include "states/dodeca_test_pattern.hpp"
 #include "states/dodeca_test_stripes.hpp"
 #include "states/dodeca_twinkle.hpp"
+#include "states/volterra_sim.hpp"
 
 #include "firmware_update/updater.hpp"
 
@@ -56,6 +57,7 @@ DodecaTwinkle      random_blink("Random blink", random_color);
 DodecaTwinkle      palette_blink("Palette blink", palette_color);
 DodecaTwinkle      blue_blink("Blue blink", blue_color);
 DodecaTwinkle      white_blink("White blink", white_color);
+VolterraSim        volterra_sim("Volterra Sim");
 
 Preferences persistent_state;
 
@@ -71,7 +73,7 @@ DodecaPathTable table;
 
 void setup() {
     // sanity check delay - allows reprogramming if accidently blowing power w/leds
-    delay(1000);
+    delay(500);
 
     Serial.begin(115200);
 
