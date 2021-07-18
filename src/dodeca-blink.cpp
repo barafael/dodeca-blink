@@ -18,6 +18,7 @@
 #include "states/dodeca_test_pattern.hpp"
 #include "states/dodeca_test_stripes.hpp"
 #include "states/dodeca_twinkle.hpp"
+#include "states/manual_mode.hpp"
 #include "states/volterra_sim.hpp"
 
 #include "firmware_update/updater.hpp"
@@ -58,6 +59,7 @@ DodecaTwinkle      palette_blink("Palette blink", palette_color);
 DodecaTwinkle      blue_blink("Blue blink", blue_color);
 DodecaTwinkle      white_blink("White blink", white_color);
 VolterraSim        volterra_sim("Volterra Sim");
+ManualMode         manual_mode("Manual Mode!");
 
 Preferences persistent_state;
 
@@ -113,6 +115,7 @@ void setup() {
     states.add_state(&palette_blink);
     states.add_state(&blue_blink);
     states.add_state(&white_blink);
+    states.add_state(&manual_mode);
 
     states.try_set_index(settings.get_index());
 
@@ -219,6 +222,11 @@ void loop() {
         case Command::ACTION_A: states.get_active_state()->do_thing(Command::ACTION_A); break;
         case Command::ACTION_B: states.get_active_state()->do_thing(Command::ACTION_B); break;
         case Command::ACTION_C: states.get_active_state()->do_thing(Command::ACTION_C); break;
+
+        case Command::BLOB: {
+            String data = SerialBT.readString();
+            states.get_active_state()->do_thing(Command::BLOB, (uint8_t *) data.c_str(), data.length());
+        } break;
 
         case Command::GET_COMMAND_NAMES:
             SerialBT.print("Commands: ");

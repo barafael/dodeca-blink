@@ -5,7 +5,7 @@
 enum class Command : uint8_t {
     NONE = 0,
 
-    NEXT_STATE = 'n',
+    NEXT_STATE     = 'n',
     PREVIOUS_STATE = 'p',
 
     INCREASE_BRIGHTNESS = 'i',
@@ -20,8 +20,11 @@ enum class Command : uint8_t {
     GET_STATE_LIST = 'l',
 
     GET_FIRMWARE_REVISION = 'v',
+
+    BLOB = 'o',
 };
 
 bool is_command(uint8_t val) {
-    return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c' || val == 'n' || val == 'p' || val == 'l' || val == 'v' || val == 'g';
+    return val == 'i' || val == 'd' || val == 'a' || val == 'b' || val == 'c' || val == 'n' || val == 'p' ||
+           val == 'l' || val == 'v' || val == 'g' || val == 'o';
 }
