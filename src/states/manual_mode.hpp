@@ -1,11 +1,11 @@
 #pragma once
 
+#include <cstddef>
+
 #include "FastLED.h"
 #include "constants.hpp"
 #include "dodeca_state.hpp"
 #include "led_data.hpp"
-
-#include <cstddef>
 
 class ManualMode : public DodecaState {
     public:
@@ -16,8 +16,16 @@ class ManualMode : public DodecaState {
         if (data == nullptr) {
             return false;
         }
-        uint8_t strip = data[0];
-        uint8_t index = data[1];
+
+        uint8_t strip = 0;
+        if (data[0] < STRIP_COUNT) {
+            strip = data[0];
+        }
+
+        uint8_t index = 0;
+        if (data[1] < LEDS_PER_STRIP) {
+            index = data[1];
+        }
 
         uint8_t r = data[2];
         uint8_t g = data[3];
