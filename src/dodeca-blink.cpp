@@ -40,8 +40,7 @@ BluetoothSerial SerialBT;
 #endif
 
 RandomColorProvider random_color;
-SolidColorProvider  blue_color(rgb2hsv_approximate(CRGB::Blue));
-SolidColorProvider  white_color(rgb2hsv_approximate(CRGB::White));
+SolidColorProvider  solid_color(rgb2hsv_approximate(CRGB::Blue));
 CRGBPalette16       palettes[] = {
     sunset_palette,
     es_emerald_dragon_08_gp,
@@ -56,8 +55,7 @@ DodecaTestStripes  test_stripes("Test Stripes", LEDS_PER_EDGE);
 DodecaColorSparkle sparkling("Sparkling");
 DodecaTwinkle      random_blink("Random blink", random_color);
 DodecaTwinkle      palette_blink("Palette blink", palette_color);
-DodecaTwinkle      blue_blink("Blue blink", blue_color);
-DodecaTwinkle      white_blink("White blink", white_color);
+DodecaTwinkle      solid_blink("Solid Color Blink", solid_color);
 VolterraSim        volterra_sim("Volterra Sim");
 ManualMode         manual_mode("Manual Mode!");
 
@@ -108,13 +106,15 @@ void setup() {
 
     random16_add_entropy(static_cast<uint16_t>(random(19885678)));
 
-    states.add_state(&test_pattern);
+//#define TEST_PATTERN
+#ifdef TEST_PATTERN
     states.add_state(&test_stripes);
+#endif // TEST_PATTERN
+    states.add_state(&fading);
     states.add_state(&sparkling);
     states.add_state(&random_blink);
     states.add_state(&palette_blink);
-    states.add_state(&blue_blink);
-    states.add_state(&white_blink);
+    states.add_state(&solid_blink);
     states.add_state(&manual_mode);
 
     states.try_set_index(settings.get_index());

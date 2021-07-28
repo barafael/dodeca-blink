@@ -32,6 +32,8 @@ class ManualMode : public DodecaState {
         uint8_t b = data[4];
 
         led_array[strip][index] = CRGB(r, g, b);
+
+        return true;
     }
 
     void advance() override {
