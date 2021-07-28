@@ -1,10 +1,12 @@
-#include <vector>
 #include <cstddef>
+#include <vector>
 
 #include "dodeca_state.hpp"
 
 class BlinkStateMachine {
-public:
+    public:
+    BlinkStateMachine() = default;
+
     explicit BlinkStateMachine(DodecaState *initial) {
         if (initial != nullptr) {
             states.push_back(initial);
@@ -54,11 +56,16 @@ public:
         return states.size();
     }
 
-    std::vector<DodecaState *>::iterator begin() { return states.begin(); }
+    std::vector<DodecaState *>::iterator begin() {
+        return states.begin();
+    }
 
-    std::vector<DodecaState *>::iterator end() { return states.end(); }
+    std::vector<DodecaState *>::iterator end() {
+        return states.end();
+    }
 
-private:
+    private:
     size_t active_index = 0;
+
     std::vector<DodecaState *> states;
 };

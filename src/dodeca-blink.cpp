@@ -67,7 +67,7 @@ Command command = Command::NONE;
 
 uint8_t actual_brightness;
 
-BlinkStateMachine states(&fading);
+BlinkStateMachine states;
 
 DodecaPathTable table;
 
@@ -119,12 +119,12 @@ void setup() {
 
     states.try_set_index(settings.get_index());
 
-    FastLED.addLeds<LED_TYPE, DATA_PIN_1, GRB>(led_array[0], LEDS_PER_STRIP);
-    FastLED.addLeds<LED_TYPE, DATA_PIN_2, GRB>(led_array[1], LEDS_PER_STRIP);
-    FastLED.addLeds<LED_TYPE, DATA_PIN_3, GRB>(led_array[2], LEDS_PER_STRIP);
-    FastLED.addLeds<LED_TYPE, DATA_PIN_4, GRB>(led_array[3], LEDS_PER_STRIP);
-    FastLED.addLeds<LED_TYPE, DATA_PIN_5, GRB>(led_array[4], LEDS_PER_STRIP);
-    FastLED.addLeds<LED_TYPE, DATA_PIN_6, GRB>(led_array[5], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_1, COLOR_ORDERING>(led_array[0], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_2, COLOR_ORDERING>(led_array[1], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_3, COLOR_ORDERING>(led_array[2], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_4, COLOR_ORDERING>(led_array[3], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_5, COLOR_ORDERING>(led_array[4], LEDS_PER_STRIP);
+    FastLED.addLeds<LED_TYPE, DATA_PIN_6, COLOR_ORDERING>(led_array[5], LEDS_PER_STRIP);
 
     FastLED.setBrightness(settings.get_brightness());
 

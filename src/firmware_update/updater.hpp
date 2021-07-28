@@ -2,10 +2,12 @@
 
 #include <pins.hpp>
 
+#include <FS.h>
 #include <SD.h>
 #include <SPI.h>
-#include <FS.h>
 #include <Update.h>
+
+#include "progress_bar.hpp"
 
 enum class UpdateStatus {
     NO_CARD,
