@@ -68,6 +68,9 @@ DodecaPathTable table;
 void setup() {
     Serial.begin(115200);
 
+    String id = "Dodeca Lamp BlueTooth control";
+    SerialBT.begin(id);
+
     UpdateStatus update_status = attempt_update();
     switch (update_status) {
         case UpdateStatus::NO_CARD:
@@ -89,9 +92,6 @@ void setup() {
     settings.set_brightness(persistent_state.getUChar("brightness", INITIAL_BRIGHTNESS));
 
     actual_brightness = settings.get_brightness();
-
-    String id = "Dodeca Lamp BlueTooth control";
-    SerialBT.begin(id);
 
     random16_add_entropy(static_cast<uint16_t>(random(19885678)));
 
