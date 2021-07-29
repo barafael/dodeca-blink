@@ -97,6 +97,7 @@ class DodecaTestPattern : public DodecaState {
 
     const size_t LEDS_PER_EDGE;
 
-    size_t       call_counter = 0;
+    size_t call_counter = 0;
+
     const size_t SKIP_COUNTER = 100;
 };
