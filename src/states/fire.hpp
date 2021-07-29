@@ -13,7 +13,8 @@
 
 class DodecaFire : public DodecaState {
     public:
-    DodecaFire(String name, int cooling, int sparking) : DodecaState(name), cooling(cooling), sparking(sparking) {
+    DodecaFire(String name, uint8_t cooling, uint8_t sparking)
+        : DodecaState(name), cooling(cooling), sparking(sparking) {
     }
 
     bool do_thing(Command id) override {
@@ -41,7 +42,7 @@ class DodecaFire : public DodecaState {
             call_counter = 0;
         }
 
-        Fire(cooling, sparking);
+        fire(cooling, sparking);
 
         if (blur) {
             uint8_t blurAmount = dim8_raw(beatsin8(3, 15, LEDS_PER_STRIP));
@@ -55,7 +56,7 @@ class DodecaFire : public DodecaState {
         }
     }
 
-    void Fire(int cooling, int sparking) {
+    void fire(int cooling, int sparking) {
         static byte heat[LEDS_PER_STRIP];
 
         int cooldown;
@@ -82,13 +83,13 @@ class DodecaFire : public DodecaState {
         }
 
         // Step 4.  Convert heat to LED colors
-        for (int j = 0; j < LEDS_PER_STRIP; j++) { setPixelHeatColor(j, heat[j]); }
+        for (int j = 0; j < LEDS_PER_STRIP; j++) { set_pixel_heat_color(j, heat[j]); }
 
         FastLED.show();
     }
 
     private:
-    void setPixelHeatColor(int pixel, byte temperature) {
+    void set_pixel_heat_color(int pixel, byte temperature) {
         // Scale 'heat' down from 0-255 to 0-191
         byte t192 = round((temperature / 255.0) * 191);
 
@@ -118,8 +119,8 @@ class DodecaFire : public DodecaState {
         }
     }
 
-    int cooling;
-    int sparking;
+    uint8_t cooling;
+    uint8_t sparking;
 
     bool blur = false;
 

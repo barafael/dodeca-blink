@@ -9,6 +9,7 @@
 #endif
 
 #include "states/blink_states.hpp"
+#include "states/bouncy.hpp"
 #include "states/dodeca_color_sparkle.hpp"
 #include "states/dodeca_fade_palette.hpp"
 #include "states/dodeca_test_pattern.hpp"
@@ -52,6 +53,7 @@ DodecaTwinkle      random_blink("Random blink", random_color);
 DodecaTwinkle      palette_blink("Palette blink", palette_color);
 DodecaTwinkle      solid_blink("Solid Color Blink", solid_color);
 DodecaFire         fire("On Fire", 55, 120);
+DodecaBouncy       bouncy("Bounce");
 VolterraSim        volterra_sim("Volterra Sim");
 ManualMode         manual_mode("Manual Mode!");
 
@@ -106,7 +108,8 @@ void setup() {
     states.add_state(&random_blink);
     states.add_state(&palette_blink);
     states.add_state(&solid_blink);
-    // states.add_state(&fire); // Fire mode, not super nice
+    states.add_state(&bouncy);
+    // states.add_state(&fire); // fire mode, not super nice
     states.add_state(&manual_mode);
 
     states.try_set_index(settings.get_index());
