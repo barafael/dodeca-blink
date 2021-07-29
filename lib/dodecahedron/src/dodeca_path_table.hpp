@@ -8,8 +8,7 @@
 
 class DodecaPathTable {
     public:
-    DodecaPathTable() {
-    }
+    DodecaPathTable() = default;
 
     Path get_path(size_t from_node_index, size_t to_node_index) const {
         return table[from_node_index][to_node_index];

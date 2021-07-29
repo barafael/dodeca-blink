@@ -2,14 +2,10 @@
 #include <FastLED.h>
 #include <Preferences.h>
 
-#define ENABLE_BLUETOOTH
-#ifdef ENABLE_BLUETOOTH
-
 #include <BluetoothSerial.h>
 
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
 #error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
-#endif
 #endif
 
 #include "states/blink_states.hpp"
@@ -35,9 +31,7 @@
 #include "palettes.hpp"
 #include "pins.hpp"
 
-#ifdef ENABLE_BLUETOOTH
 BluetoothSerial SerialBT;
-#endif
 
 RandomColorProvider random_color;
 SolidColorProvider  solid_color(rgb2hsv_approximate(CRGB::Blue));
@@ -96,10 +90,8 @@ void setup() {
 
     actual_brightness = settings.get_brightness();
 
-#ifdef ENABLE_BLUETOOTH
     String id = "Dodeca Lamp BlueTooth control";
     SerialBT.begin(id);
-#endif
 
     random16_add_entropy(static_cast<uint16_t>(random(19885678)));
 
@@ -130,14 +122,12 @@ void setup() {
 
 void loop() {
     uint8_t val = 0;
-#ifdef ENABLE_BLUETOOTH
     if (SerialBT.available()) {
         val = (uint8_t) SerialBT.read();
         if (is_command(val)) {
             command = (Command) val;
         }
     }
-#endif // ENABLE_BLUETOOTH
 
     if (val >= 'A' && val <= 'Z') {
         size_t index = val - 65;
@@ -156,21 +146,15 @@ void loop() {
             if (settings.get_brightness() < BRIGHTNESS_STEP) {
                 settings.set_brightness(settings.get_brightness() + BRIGHTNESS_TINY_STEP);
                 settings.serialize();
-#ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
                 SerialBT.println(settings.get_brightness());
-#endif
             } else if (settings.get_brightness() + BRIGHTNESS_STEP < 256) {
                 settings.set_brightness(settings.get_brightness() + BRIGHTNESS_STEP);
                 settings.serialize();
-#ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
                 SerialBT.println(settings.get_brightness());
-#endif
             } else {
-#ifdef ENABLE_BLUETOOTH
                 SerialBT.println("max brightness");
-#endif
             }
         } break;
         case Command::DECREASE_BRIGHTNESS: {
@@ -183,17 +167,13 @@ void loop() {
                 }
                 settings.set_brightness(brightness);
                 settings.serialize();
-#ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
                 SerialBT.println(settings.get_brightness());
-#endif
             } else {
                 settings.set_brightness(settings.get_brightness() - BRIGHTNESS_STEP);
                 settings.serialize();
-#ifdef ENABLE_BLUETOOTH
                 SerialBT.print("Brightness: ");
                 SerialBT.println(settings.get_brightness());
-#endif
             }
         } break;
         case Command::NEXT_STATE: {
@@ -201,20 +181,16 @@ void loop() {
             settings.set_index(states.get_active_index());
             settings.serialize();
             FastLED.clear();
-#ifdef ENABLE_BLUETOOTH
             SerialBT.print("State: ");
             SerialBT.println(*states.get_active_state()->get_name());
-#endif
         } break;
         case Command::PREVIOUS_STATE: {
             states.go_to_previous();
             settings.set_index(states.get_active_index());
             settings.serialize();
             FastLED.clear();
-#ifdef ENABLE_BLUETOOTH
             SerialBT.print("State: ");
             SerialBT.println(*states.get_active_state()->get_name());
-#endif
         } break;
         case Command::ACTION_A: states.get_active_state()->do_thing(Command::ACTION_A); break;
         case Command::ACTION_B: states.get_active_state()->do_thing(Command::ACTION_B); break;

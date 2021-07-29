@@ -1,23 +1,21 @@
 #pragma once
 
-#include <cstddef>
 #include <cassert>
+#include <cstddef>
 
 constexpr size_t MAX_PATH_LEN = 5;
 
 using path_t = std::pair<std::array<size_t, MAX_PATH_LEN>, size_t>;
 
 class Path {
-  public:
+    public:
     Path() = default;
 
     Path(std::initializer_list<size_t> list) {
         assert(list.size() <= MAX_PATH_LEN);
         num_elems = list.size();
-        size_t i = 0;
-        for (auto elem: list) {
-            nodes[i++] = elem;
-        }
+        size_t i  = 0;
+        for (auto elem : list) { nodes[i++] = elem; }
     }
 
     bool contains(size_t index) {
@@ -50,18 +48,17 @@ class Path {
         num_elems = 0;
     }
 
-    Path& operator=(const Path& other) {
+    Path &operator=(const Path &other) {
         if (this == &other) {
             return *this;
         }
         this->num_elems = other.num_elems;
-        for (size_t i = 0; i < other.num_elems; i++) {
-            this->nodes[i] = other.nodes[i];
-        }
+        for (size_t i = 0; i < other.num_elems; i++) { this->nodes[i] = other.nodes[i]; }
         return *this;
     }
 
-  private:
-    size_t num_elems                       = 0;
+    private:
+    size_t num_elems = 0;
+
     std::array<size_t, MAX_PATH_LEN> nodes = {};
 };
