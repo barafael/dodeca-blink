@@ -72,9 +72,6 @@ BlinkStateMachine states;
 DodecaPathTable table;
 
 void setup() {
-    // sanity check delay - allows reprogramming if accidently blowing power w/leds
-    delay(500);
-
     Serial.begin(115200);
 
     UpdateStatus update_status = attempt_update();

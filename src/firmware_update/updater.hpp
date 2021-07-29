@@ -7,8 +7,6 @@
 #include <SPI.h>
 #include <Update.h>
 
-#include "progress_bar.hpp"
-
 enum class UpdateStatus {
     NO_CARD,
     FILE_ERROR,
@@ -22,12 +20,14 @@ UpdateStatus perform_update(Stream &update_source, size_t update_size) {
         Serial.println("Not enough space to begin update.");
         return UpdateStatus::INSUFFICIENT_SPACE;
     }
+
     size_t written = Update.writeStream(update_source);
     if (written == update_size) {
         Serial.println("Written : " + String(written) + " bytes successfully.");
     } else {
         Serial.println("Written only : " + String(written) + " bytes of " + String(update_size) + ".");
     }
+
     if (!Update.end()) {
         Serial.println("Error Occurred. Error ID: " + String(Update.getError()));
         return UpdateStatus::UPDATE_ERROR;
@@ -66,7 +66,7 @@ UpdateStatus update_from_fs(fs::FS &fs) {
 
     update_bin.close();
 
-    // on finish, remove the binary from sd card to indicate end of the process
+    // on finish, remove the binary from sd card to indicate success of the process
     fs.remove("/update.bin");
 
     return UpdateStatus::UPDATE_OK;
