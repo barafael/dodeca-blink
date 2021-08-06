@@ -1,16 +1,13 @@
 #pragma once
 
 #include "dodeca_node.hpp"
-#include "dodeca_edge.hpp"
 
 #include <array>
 #include <cstddef>
 
-enum class TraverseType : size_t
-{
-    TO        = 0,
-    FROM      = 1,
-    SNOWFLAKE = 2,
+enum class TraversalDirection : size_t {
+    UP   = 0,
+    DOWN = 1,
 };
 
 constexpr size_t NUM_NODES = 20;
@@ -18,69 +15,17 @@ constexpr size_t NUM_EDGES = 30;
 
 class Dodecahedron {
     public:
-        Dodecahedron() = default;
+    Dodecahedron() = default;
 
-        std::array<size_t, 3> get_neighbouring_nodes_of(size_t node_index) const {
-            return std::array<size_t, 3> {
-                edges[nodes[node_index].edge_index[0]].traverse_from(node_index),
-                edges[nodes[node_index].edge_index[1]].traverse_from(node_index),
-                edges[nodes[node_index].edge_index[2]].traverse_from(node_index),
-            };
-        }
+    Node get_node(node_index index) {
+        return nodes[index];
+    }
 
-        std::array<Node, NUM_NODES> nodes {{
-            Node {5, 0, 1},
-            Node {6, 1, 2},
-            Node {7, 2, 3},
-            Node {8, 3, 4},
-            Node {9, 4, 0},
-            Node {19, 5, 10},
-            Node {15, 6, 11},
-            Node {16, 7, 12},
-            Node {17, 8, 13},
-            Node {18, 9, 14},
-            Node {20, 15, 10},
-            Node {21, 16, 11},
-            Node {22, 17, 12},
-            Node {23, 18, 13},
-            Node {24, 19, 14},
-            Node {25, 20, 29},
-            Node {26, 21, 25},
-            Node {27, 22, 26},
-            Node {28, 23, 27},
-            Node {29, 24, 28},
-        }};
-
-        std::array<Edge, NUM_EDGES> edges {{
-            Edge {4, 0},
-            Edge {0, 1},
-            Edge {1, 2},
-            Edge {2, 3},
-            Edge {3, 4},
-            Edge {0, 5},
-            Edge {1, 6},
-            Edge {2, 7},
-            Edge {3, 8},
-            Edge {4, 9},
-            Edge {5, 10},
-            Edge {6, 11},
-            Edge {7, 12},
-            Edge {8, 13},
-            Edge {9, 14},
-            Edge {6, 10},
-            Edge {7, 11},
-            Edge {8, 12},
-            Edge {9, 13},
-            Edge {5, 14},
-            Edge {10, 15},
-            Edge {11, 16},
-            Edge {12, 17},
-            Edge {13, 18},
-            Edge {14, 19},
-            Edge {15, 16},
-            Edge {16, 17},
-            Edge {17, 18},
-            Edge {18, 19},
-            Edge {19, 15},
-        }};
+    private:
+    std::array<Node, NUM_NODES> nodes {
+        { Node { 1, 5, 4 },    Node { 0, 2, 6 },    Node { 1, 3, 7 },    Node { 2, 4, 8 },    Node { 0, 3, 9 },
+          Node { 0, 10, 14 },  Node { 1, 10, 11 },  Node { 2, 11, 12 },  Node { 3, 12, 13 },  Node { 4, 13, 14 },
+          Node { 5, 6, 15 },   Node { 6, 7, 16 },   Node { 7, 8, 17 },   Node { 8, 9, 18 },   Node { 5, 9, 19 },
+          Node { 10, 16, 19 }, Node { 11, 15, 17 }, Node { 12, 16, 18 }, Node { 13, 17, 19 }, Node { 14, 15, 18 } }
+    };
 };

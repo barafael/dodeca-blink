@@ -26,7 +26,6 @@
 #include "color_provider/solid_color_provider.hpp"
 #include "command.hpp"
 #include "constants.hpp"
-#include "dodeca_path_table.hpp"
 #include "firmware_revision.hpp"
 #include "lamp_settings.hpp"
 #include "led_data.hpp"
@@ -67,7 +66,7 @@ uint8_t actual_brightness;
 
 BlinkStateMachine states;
 
-DodecaPathTable table;
+//DodecaPathTable table;
 
 void setup() {
     Serial.begin(115200);

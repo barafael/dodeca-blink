@@ -3,10 +3,19 @@
 #include <array>
 #include <cstddef>
 
-class Node {
-  public:
-    Node() = default;
-    Node(size_t index1, size_t index2, size_t index3): edge_index {index1, index2, index3} {};
+using node_index = size_t;
 
-    std::array<size_t, 3> edge_index = {};
+class Node {
+    public:
+    Node(node_index a, node_index b, node_index c) : a(a), b(b), c(c) {
+    }
+
+    std::array<node_index, 3> get_neighbours() {
+        return std::array<node_index, 3> { a, b, c };
+    }
+
+    private:
+    node_index a;
+    node_index b;
+    node_index c;
 };

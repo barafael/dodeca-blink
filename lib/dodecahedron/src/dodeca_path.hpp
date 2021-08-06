@@ -1,36 +1,40 @@
 #pragma once
 
+#include <array>
 #include <cassert>
 #include <cstddef>
+#include <utility>
+
+#include "dodecahedron.hpp"
 
 constexpr size_t MAX_PATH_LEN = 5;
 
-using path_t = std::pair<std::array<size_t, MAX_PATH_LEN>, size_t>;
+using path_t = std::pair<std::array<node_index, MAX_PATH_LEN>, size_t>;
 
 class Path {
     public:
     Path() = default;
 
-    Path(std::initializer_list<size_t> list) {
+    Path(std::initializer_list<node_index> list) {
         assert(list.size() <= MAX_PATH_LEN);
         num_elems = list.size();
         size_t i  = 0;
         for (auto elem : list) { nodes[i++] = elem; }
     }
 
-    bool contains(size_t index) {
+    bool contains(node_index node) {
         for (size_t i = 0; i < num_elems; i++) {
-            if (nodes[i] == index) {
+            if (nodes[i] == node) {
                 return true;
             }
         }
         return false;
     }
 
-    void append(size_t index) {
-        if (!contains(index)) {
+    void append(node_index node) {
+        if (!contains(node)) {
             if (num_elems < MAX_PATH_LEN) {
-                nodes[num_elems] = index;
+                nodes[num_elems] = node;
                 num_elems++;
             }
         }
@@ -60,5 +64,5 @@ class Path {
     private:
     size_t num_elems = 0;
 
-    std::array<size_t, MAX_PATH_LEN> nodes = {};
+    std::array<node_index, MAX_PATH_LEN> nodes = {};
 };
