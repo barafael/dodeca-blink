@@ -2,5 +2,3 @@
 
 #include <cstddef>
 #include <utility>
-
-#include "ecsyt.hpp"
